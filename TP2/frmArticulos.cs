@@ -43,5 +43,11 @@ namespace TP2
             listaMarca = negocio3.listar();
             
         }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            frmAgregarArticulo agregar = new frmAgregarArticulo();
+            agregar.ShowDialog();
+        }
     }
 }
