@@ -23,7 +23,7 @@ namespace TP2
         {
             InitializeComponent();
         }
-
+       
         private void frmArticulos_Load(object sender, EventArgs e)
         {
             cargar();
@@ -57,7 +57,17 @@ namespace TP2
         {
             frmAgregarArticulo agregar = new frmAgregarArticulo();
             agregar.ShowDialog();
+            cargar();
         }
-                
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            Articulo seleccionado;
+            seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+            frmAgregarArticulo modificar = new frmAgregarArticulo(seleccionado);
+            modificar.ShowDialog();
+            cargar();
+        }
     }
 }
