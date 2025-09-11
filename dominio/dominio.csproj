@@ -43,10 +43,6 @@
   <ItemGroup>
     <Compile Include="Articulo.cs" />
     <Compile Include="Categoria.cs" />
-<<<<<<< HEAD
-=======
-    <Compile Include="Class1.cs" />
->>>>>>> 027b2f595f596d443dbd3639346cdd08437be2c8
     <Compile Include="Imagen.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

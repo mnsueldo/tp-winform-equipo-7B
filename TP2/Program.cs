@@ -17,11 +17,7 @@ namespace TP2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-<<<<<<< HEAD
             Application.Run(new frmArticulos());
-=======
-            Application.Run(new Form1());
->>>>>>> 027b2f595f596d443dbd3639346cdd08437be2c8
         }
     }
 }
