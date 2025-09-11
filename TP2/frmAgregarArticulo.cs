@@ -52,6 +52,7 @@ namespace TP2
                 articulo.Descripcion = txtDescripcion.Text;
                 articulo.Categoria = (Categoria)cboCategoria.SelectedItem;
                 articulo.Marca = (Marca)cboMarca.SelectedItem;
+                articulo.Precio = decimal.Parse(txtPrecio.Text);
 
                 articuloNegocio.agregar(articulo);
                 MessageBox.Show("Articulo agregado correctamente");
@@ -62,6 +63,11 @@ namespace TP2
 
                 throw ex;
             }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

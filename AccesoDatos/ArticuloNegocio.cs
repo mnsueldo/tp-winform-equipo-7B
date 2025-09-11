@@ -19,20 +19,24 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("Select Codigo, Nombre, A.Descripcion, Precio, C.Descripcion AS Categoria, M.Descripcion AS Marca From ARTICULOS as A, CATEGORIAS as C, MARCAS as M WHERE C.Id = A.IdCategoria AND M.Id = A.IdMarca");
+                datos.setearConsulta("Select Codigo, Nombre, A.Descripcion, Precio, C.Descripcion Categoria, M.Descripcion Marca From ARTICULOS as A, CATEGORIAS as C, MARCAS as M WHERE C.Id = A.IdCategoria AND M.Id = A.IdMarca");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Articulo aux = new Articulo();
+                    Articulo aux = new Articulo();                    
                     aux.Codigo = (string)datos.Lector["Codigo"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
-                    aux.Precio = (decimal)datos.Lector["Precio"];
+
+                    if(!(datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Precio"))))
+                        aux.Precio = (decimal)datos.Lector["Precio"];
+                    
+                    
                     aux.Categoria = new Categoria();
-                    aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
+                    aux.Categoria.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.Marca = new Marca();
-                    aux.Marca.Descripcion = (string)datos.Lector["Marca"];
+                    aux.Marca.Descripcion = (string)datos.Lector["Descripcion"];
 
                     lista.Add(aux);
 
@@ -55,12 +59,13 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("INSERT into ARTICULOS (Codigo, Nombre, Descripcion,idCategoria,idMarca)values(@Codigo, @Nombre, @Descripcion,@Categoria,@Marca)");
+                datos.setearConsulta("INSERT into ARTICULOS (Codigo, Nombre, Descripcion,idCategoria,idMarca,Precio)values(@Codigo, @Nombre, @Descripcion,@Categoria,@Marca,@Precio)");
                 datos.setearParametro("@Codigo", nuevo.Codigo);
                 datos.setearParametro("@Nombre", nuevo.Nombre);
                 datos.setearParametro("@Descripcion", nuevo.Descripcion);
                 datos.setearParametro("@Categoria", nuevo.Categoria.Id);
                 datos.setearParametro("@Marca", nuevo.Marca.Id);
+                datos.setearParametro("@Precio", nuevo.Precio);
 
                 datos.ejecutarAccion();
             }

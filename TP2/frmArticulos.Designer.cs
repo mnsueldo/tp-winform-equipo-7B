@@ -47,6 +47,7 @@
             this.dgvArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvArticulos.Size = new System.Drawing.Size(643, 245);
             this.dgvArticulos.TabIndex = 0;
+            
             // 
             // btnAgregar
             // 
