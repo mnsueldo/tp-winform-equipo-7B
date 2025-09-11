@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccesoDatos.cs" />
+<<<<<<< HEAD
     <Compile Include="ArticuloNegocio.cs" />
     <Compile Include="CategoriaNegocio.cs" />
     <Compile Include="ImagenNegocio.cs" />
@@ -54,5 +55,9 @@
       <Name>dominio</Name>
     </ProjectReference>
   </ItemGroup>
+=======
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+>>>>>>> 027b2f595f596d443dbd3639346cdd08437be2c8
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

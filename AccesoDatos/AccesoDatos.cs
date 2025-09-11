@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+<<<<<<< HEAD
 using dominio;
+=======
+>>>>>>> 027b2f595f596d443dbd3639346cdd08437be2c8
 
 namespace Negocio
 {
@@ -44,6 +47,7 @@ namespace Negocio
             }
         }
 
+<<<<<<< HEAD
         public void cerrarConexion()
         {
             if (lector != null)
@@ -51,5 +55,7 @@ namespace Negocio
             conexion.Close();
         }
 
+=======
+>>>>>>> 027b2f595f596d443dbd3639346cdd08437be2c8
     }
 }
