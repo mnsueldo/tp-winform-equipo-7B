@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using dominio;
-
 
 namespace Negocio
 {
     public class ArticuloNegocio
     {
-
         public List<Articulo> listar()
         {
             List<Articulo> lista = new List<Articulo>();
@@ -30,25 +24,24 @@ namespace Negocio
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
 
-                    if(!(datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Precio"))))
-                        aux.Precio = (decimal)datos.Lector["Precio"];                   
-                    
+                    if (!(datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Precio"))))
+                        aux.Precio = (decimal)datos.Lector["Precio"];
+
                     aux.Categoria = new Categoria();
                     aux.Categoria.Id = (int)datos.Lector["IdCategoria"];
                     aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
+
                     aux.Marca = new Marca();
                     aux.Marca.Id = (int)datos.Lector["IdMarca"];
                     aux.Marca.Descripcion = (string)datos.Lector["Marca"];
 
                     lista.Add(aux);
-
                 }
 
                 return lista;
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -56,6 +49,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
         public void agregar(Articulo nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -74,14 +68,12 @@ namespace Negocio
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
             {
                 datos.cerrarConexion();
             }
-
         }
 
         public void modificar(Articulo nuevo)
@@ -98,11 +90,11 @@ namespace Negocio
                 datos.setearParametro("@Precio", nuevo.Precio);
                 datos.setearParametro("@id", nuevo.Id);
 
-                datos.ejecutarLectura();
+                // ERA ejecutarLectura(); -> para UPDATE corresponde ejecutarAccion()
+                datos.ejecutarAccion();
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -111,6 +103,28 @@ namespace Negocio
             }
         }
 
-
-    }  
+        // >>> NUEVO: eliminación física
+        public void eliminarFisico(int id)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                // si no hay cascade, primero imágenes y luego artículo
+                datos.setearConsulta(
+                    "DELETE FROM IMAGENES WHERE IdArticulo = @id; " +
+                    "DELETE FROM ARTICULOS WHERE Id = @id;"
+                );
+                datos.setearParametro("@id", id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+    }
 }
