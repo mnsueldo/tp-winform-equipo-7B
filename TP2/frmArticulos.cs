@@ -95,5 +95,13 @@ namespace TP2
                 MessageBox.Show(ex.ToString());
             }
         }
+<<<<<<< Updated upstream
+=======
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+
+        }
+>>>>>>> Stashed changes
     }
 }
