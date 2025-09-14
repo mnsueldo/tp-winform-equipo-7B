@@ -14,8 +14,8 @@ namespace TP2
 {
     public partial class frmArticulos : Form
     {
-        private List<Articulo> listaArticulo;        
-       
+        private List<Articulo> listaArticulo;
+
         public frmArticulos()
         {
             InitializeComponent();
@@ -24,7 +24,10 @@ namespace TP2
         private void frmArticulos_Load(object sender, EventArgs e)
         {
             cargar();
-        }private void ocultarColumnas()
+            cboCampo.Items.Add("Nombre");
+            cboCampo.Items.Add("Descripcion");
+        }
+        private void ocultarColumnas()
         {
             dgvArticulos.Columns["Id"].Visible = false;
         }
@@ -34,11 +37,11 @@ namespace TP2
             try
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
-                listaArticulo = negocio.listar();           
-               
+                listaArticulo = negocio.listar();
+
                 dgvArticulos.DataSource = listaArticulo;
                 ocultarColumnas();
-                
+
                 if (dgvArticulos.CurrentRow != null)
                 {
                     Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
@@ -52,10 +55,10 @@ namespace TP2
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-                
+
             }
 
-                       
+
         }
 
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
@@ -104,7 +107,7 @@ namespace TP2
             {
                 if (dgvArticulos.CurrentRow == null)
                     return;
-                                
+
                 Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
 
                 var resp = MessageBox.Show(
@@ -160,18 +163,12 @@ namespace TP2
             ocultarColumnas();
 
         }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
+               
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
             try
             {
-                
 
                 string campo = cboCampo.SelectedItem.ToString();
                 string criterio = cboCriterio.SelectedItem.ToString();
@@ -182,6 +179,25 @@ namespace TP2
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string opcion = cboCampo.SelectedItem.ToString();
+            if (opcion == "Nombre")
+            {
+                cboCriterio.Items.Clear();
+                cboCriterio.Items.Add("Comienza con");
+                cboCriterio.Items.Add("Termina con");
+                cboCriterio.Items.Add("Contiene");
+            }
+            else
+            {
+                cboCriterio.Items.Clear();
+                cboCriterio.Items.Add("Comienza con");
+                cboCriterio.Items.Add("Termina con");
+                cboCriterio.Items.Add("Contiene");
             }
         }
     }

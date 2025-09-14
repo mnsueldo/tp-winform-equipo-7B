@@ -80,6 +80,7 @@
             this.Controls.Add(this.btnCancelarCategoria);
             this.Controls.Add(this.btnAceptarCategoria);
             this.Name = "frmAgregarCategoria";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Agregar Categoria";
             this.Load += new System.EventHandler(this.frmAgregarCategoria_Load);
             this.ResumeLayout(false);

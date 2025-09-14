@@ -25,38 +25,7 @@ namespace TP2
             InitializeComponent();
             Text = "Modificar Articulo";
         }
-        
-        private void frmAgregarArticulo_Load(object sender, EventArgs e)
-        {   
-            ArticuloNegocio articuloNegocio = new ArticuloNegocio();
-            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
-            MarcaNegocio marcaNegocio = new MarcaNegocio();
-            try
-            {
-                cboCategoria.DataSource = categoriaNegocio.listar();
-                cboCategoria.ValueMember = "Id";
-                cboCategoria.DisplayMember = "Descripcion";
-                cboMarca.DataSource = marcaNegocio.listar();
-                cboMarca.ValueMember = "Id";
-                cboMarca.DisplayMember = "Descripcion";
                 
-                if(articulo != null)
-                {
-                    txtCodigo.Text = articulo.Codigo;
-                    txtNombre.Text = articulo.Nombre;
-                    txtDescripcion.Text = articulo.Descripcion;
-                    txtPrecio.Text = articulo.Precio.ToString();
-                    cboCategoria.SelectedValue = articulo.Categoria.Id;
-                    cboMarca.SelectedValue = articulo.Marca.Id;
-                }
-            }
-            catch ( Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
         private void btnAceptar_Click(object sender, EventArgs e)
         {
            
@@ -95,9 +64,64 @@ namespace TP2
             }
         }
 
+        private void frmAgregarArticulo_Load(object sender, EventArgs e)
+        {
+            ArticuloNegocio articuloNegocio = new ArticuloNegocio();
+            CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+            MarcaNegocio marcaNegocio = new MarcaNegocio();
+            try
+            {
+                cboCategoria.DataSource = categoriaNegocio.listar();
+                cboCategoria.ValueMember = "Id";
+                cboCategoria.DisplayMember = "Descripcion";
+                cboMarca.DataSource = marcaNegocio.listar();
+                cboMarca.ValueMember = "Id";
+                cboMarca.DisplayMember = "Descripcion";
+
+                if (articulo != null)
+                {
+                    txtCodigo.Text = articulo.Codigo;
+                    txtNombre.Text = articulo.Nombre;
+                    txtDescripcion.Text = articulo.Descripcion;
+                    txtPrecio.Text = articulo.Precio.ToString();
+                    cboCategoria.SelectedValue = articulo.Categoria.Id;
+                    cboMarca.SelectedValue = articulo.Marca.Id;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
+        }
+               
+        private void lblMarca_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblCategoria_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblDescripcion_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblNombre_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblPrecio_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
