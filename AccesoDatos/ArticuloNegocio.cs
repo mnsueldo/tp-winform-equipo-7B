@@ -13,7 +13,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("Select Codigo, Nombre, A.Descripcion, Precio, C.Descripcion Categoria, M.Descripcion Marca, A.IdCategoria, A.IdMarca, A.Id From ARTICULOS as A, CATEGORIAS as C, MARCAS as M WHERE C.Id = A.IdCategoria AND M.Id = A.IdMarca");
+                datos.setearConsulta("Select A.Id,Codigo, Nombre, A.Descripcion, Precio, C.Descripcion Categoria, M.Descripcion Marca, A.IdCategoria, A.IdMarca, I.ImagenUrl From ARTICULOS as A, CATEGORIAS as C, MARCAS as M, IMAGENES AS I WHERE C.Id = A.IdCategoria AND M.Id = A.IdMarca AND A.Id = I.IdArticulo");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -34,6 +34,16 @@ namespace Negocio
                     aux.Marca = new Marca();
                     aux.Marca.Id = (int)datos.Lector["IdMarca"];
                     aux.Marca.Descripcion = (string)datos.Lector["Marca"];
+
+                    if (!(datos.Lector.IsDBNull(datos.Lector.GetOrdinal("ImagenUrl"))))
+                    {
+                        Imagen img = new Imagen
+                        {
+                            ImagenUrl = (string)datos.Lector["ImagenUrl"]
+                        };
+                        aux.Imagenes.Add(img);
+                    }
+
 
                     lista.Add(aux);
                 }
@@ -89,8 +99,7 @@ namespace Negocio
                 datos.setearParametro("@IdMarca", nuevo.Marca.Id);
                 datos.setearParametro("@Precio", nuevo.Precio);
                 datos.setearParametro("@id", nuevo.Id);
-
-                // ERA ejecutarLectura(); -> para UPDATE corresponde ejecutarAccion()
+                               
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -103,13 +112,13 @@ namespace Negocio
             }
         }
 
-        // >>> NUEVO: eliminación física
+        
         public void eliminarFisico(int id)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                // si no hay cascade, primero imágenes y luego artículo
+                
                 datos.setearConsulta(
                     "DELETE FROM IMAGENES WHERE IdArticulo = @id; " +
                     "DELETE FROM ARTICULOS WHERE Id = @id;"

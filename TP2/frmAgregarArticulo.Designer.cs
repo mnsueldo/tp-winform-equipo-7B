@@ -91,7 +91,6 @@
             this.lblNombre.Size = new System.Drawing.Size(44, 13);
             this.lblNombre.TabIndex = 4;
             this.lblNombre.Text = "Nombre";
-            
             // 
             // lblDescripcion
             // 
@@ -179,7 +178,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(566, 450);
+            this.ClientSize = new System.Drawing.Size(638, 394);
             this.Controls.Add(this.lblPrecio);
             this.Controls.Add(this.txtPrecio);
             this.Controls.Add(this.cboMarca);
