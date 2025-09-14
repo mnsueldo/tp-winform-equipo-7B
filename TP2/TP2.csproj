@@ -73,16 +73,22 @@
     <Compile Include="frmAgregarCategoria.Designer.cs">
       <DependentUpon>frmAgregarCategoria.cs</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <!-- Mantengo los forms de Marcas -->
+=======
+>>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
     <Compile Include="frmAgregarMarca.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmAgregarMarca.Designer.cs">
       <DependentUpon>frmAgregarMarca.cs</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="frmArticulos.BusquedaSimple.cs">
       <SubType>Form</SubType>
     </Compile>
+=======
+>>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
     <Compile Include="frmArticulos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,12 +101,15 @@
     <Compile Include="frmCategorias.Designer.cs">
       <DependentUpon>frmCategorias.cs</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="frmDetalleArticulo.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmDetalleArticulo.Designer.cs">
       <DependentUpon>frmDetalleArticulo.cs</DependentUpon>
     </Compile>
+=======
+>>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
     <Compile Include="frmMarcas.cs">
       <SubType>Form</SubType>
     </Compile>

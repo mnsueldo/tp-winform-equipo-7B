@@ -143,6 +143,7 @@ namespace Negocio
 
             try
             {
+<<<<<<< HEAD
                 // Base igual a tu listar, incluyendo la unión con IMAGENES
                 string consulta =
                     "SELECT A.Id, Codigo, Nombre, A.Descripcion, Precio, " +
@@ -252,6 +253,40 @@ namespace Negocio
                     }
                 }
                 // Si el campo no coincide con ninguno, no agrego filtro extra.
+=======
+                string consulta = "Select A.Id,Codigo, Nombre, A.Descripcion, Precio, C.Descripcion Categoria, M.Descripcion Marca, A.IdCategoria, A.IdMarca, I.ImagenUrl From ARTICULOS as A, CATEGORIAS as C, MARCAS as M, IMAGENES AS I WHERE C.Id = A.IdCategoria AND M.Id = A.IdMarca AND A.Id = I.IdArticulo And ";
+
+                if (campo == "Nombre")
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += "Nombre like '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += "Nombre like '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += "Nombre like '%" + filtro + "%'";
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += "P.Descripcion like '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += "P.Descripcion like '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += "P.Descripcion like '%" + filtro + "%'";
+                            break;
+                    }
+                }
+>>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -264,7 +299,11 @@ namespace Negocio
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
 
+<<<<<<< HEAD
                     if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Precio")))
+=======
+                    if (!(datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Precio"))))
+>>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
                         aux.Precio = (decimal)datos.Lector["Precio"];
 
                     aux.Categoria = new Categoria();
@@ -275,6 +314,7 @@ namespace Negocio
                     aux.Marca.Id = (int)datos.Lector["IdMarca"];
                     aux.Marca.Descripcion = (string)datos.Lector["Marca"];
 
+<<<<<<< HEAD
                     if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("ImagenUrl")))
                     {
                         Imagen img = new Imagen { ImagenUrl = (string)datos.Lector["ImagenUrl"] };
@@ -285,11 +325,28 @@ namespace Negocio
                 }
 
                 return lista; // <-- asegura que siempre devuelve lista
+=======
+                    if (!(datos.Lector.IsDBNull(datos.Lector.GetOrdinal("ImagenUrl"))))
+                    {
+                        Imagen img = new Imagen
+                        {
+                            ImagenUrl = (string)datos.Lector["ImagenUrl"]
+                        };
+                        aux.Imagenes.Add(img);
+                    }
+
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+>>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+<<<<<<< HEAD
             finally
             {
                 datos.cerrarConexion();
@@ -299,3 +356,8 @@ namespace Negocio
 }
   
 
+=======
+        }
+    }
+}
+>>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
