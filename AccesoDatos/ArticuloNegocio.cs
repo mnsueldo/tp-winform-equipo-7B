@@ -135,5 +135,46 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-    }
-}
+
+        public List<Articulo> filtrar(string campo, string criterio, string filtro)
+        {
+            List<Articulo> lista = new List<Articulo>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                string consulta = "Select A.Id,Codigo, Nombre, A.Descripcion, Precio, C.Descripcion Categoria, M.Descripcion Marca, A.IdCategoria, A.IdMarca, I.ImagenUrl From ARTICULOS as A, CATEGORIAS as C, MARCAS as M, IMAGENES AS I WHERE C.Id = A.IdCategoria AND M.Id = A.IdMarca AND A.Id = I.IdArticulo And ";
+                
+                else if (campo == "Nombre")
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += "Nombre like '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += "Nombre like '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += "Nombre like '%" + filtro + "%'";
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (criterio)
+                    {
+                        case "Comienza con":
+                            consulta += "P.Descripcion like '" + filtro + "%' ";
+                            break;
+                        case "Termina con":
+                            consulta += "P.Descripcion like '%" + filtro + "'";
+                            break;
+                        default:
+                            consulta += "P.Descripcion like '%" + filtro + "%'";
+                            break;
+                    }
+                }
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+            }
