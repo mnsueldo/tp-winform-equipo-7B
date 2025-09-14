@@ -45,10 +45,8 @@
             this.cboCampo = new System.Windows.Forms.ComboBox();
             this.cboCriterio = new System.Windows.Forms.ComboBox();
             this.txtFiltroBusqueda = new System.Windows.Forms.TextBox();
-<<<<<<< HEAD
+            this.btnMenuMarcas = new System.Windows.Forms.Button();
             this.btnMenuCategorias = new System.Windows.Forms.Button();
-=======
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             ((System.ComponentModel.ISupportInitialize)(this.dgvArticulos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
             this.SuspendLayout();
@@ -61,11 +59,7 @@
             this.dgvArticulos.MultiSelect = false;
             this.dgvArticulos.Name = "dgvArticulos";
             this.dgvArticulos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-<<<<<<< HEAD
             this.dgvArticulos.Size = new System.Drawing.Size(607, 245);
-=======
-            this.dgvArticulos.Size = new System.Drawing.Size(635, 245);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.dgvArticulos.TabIndex = 0;
             this.dgvArticulos.SelectionChanged += new System.EventHandler(this.dgvArticulos_SelectionChanged);
             // 
@@ -73,11 +67,7 @@
             // 
             this.btnAgregar.Location = new System.Drawing.Point(41, 307);
             this.btnAgregar.Name = "btnAgregar";
-<<<<<<< HEAD
             this.btnAgregar.Size = new System.Drawing.Size(103, 25);
-=======
-            this.btnAgregar.Size = new System.Drawing.Size(74, 25);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.btnAgregar.TabIndex = 1;
             this.btnAgregar.Text = "Agregar ";
             this.btnAgregar.UseVisualStyleBackColor = true;
@@ -86,15 +76,9 @@
             // btnModificar
             // 
             this.btnModificar.ForeColor = System.Drawing.SystemColors.ControlText;
-<<<<<<< HEAD
             this.btnModificar.Location = new System.Drawing.Point(180, 307);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(91, 25);
-=======
-            this.btnModificar.Location = new System.Drawing.Point(150, 307);
-            this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(74, 25);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.btnModificar.TabIndex = 2;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
@@ -102,15 +86,9 @@
             // 
             // btnBuscar
             // 
-<<<<<<< HEAD
             this.btnBuscar.Location = new System.Drawing.Point(637, 360);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(83, 25);
-=======
-            this.btnBuscar.Location = new System.Drawing.Point(588, 356);
-            this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(85, 31);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.btnBuscar.TabIndex = 3;
             this.btnBuscar.Tag = "Buscar";
             this.btnBuscar.Text = "Buscar";
@@ -119,15 +97,9 @@
             // 
             // btnEliminar
             // 
-<<<<<<< HEAD
             this.btnEliminar.Location = new System.Drawing.Point(331, 307);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(82, 25);
-=======
-            this.btnEliminar.Location = new System.Drawing.Point(259, 307);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(74, 25);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.btnEliminar.TabIndex = 4;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = true;
@@ -135,11 +107,7 @@
             // 
             // btnVerDetalle
             // 
-<<<<<<< HEAD
             this.btnVerDetalle.Location = new System.Drawing.Point(471, 307);
-=======
-            this.btnVerDetalle.Location = new System.Drawing.Point(368, 307);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.btnVerDetalle.Name = "btnVerDetalle";
             this.btnVerDetalle.Size = new System.Drawing.Size(74, 25);
             this.btnVerDetalle.TabIndex = 5;
@@ -178,11 +146,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-<<<<<<< HEAD
             this.label1.Location = new System.Drawing.Point(293, 37);
-=======
-            this.label1.Location = new System.Drawing.Point(210, 32);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 9;
@@ -190,26 +154,16 @@
             // 
             // txtFiltro
             // 
-<<<<<<< HEAD
             this.txtFiltro.Location = new System.Drawing.Point(331, 34);
             this.txtFiltro.Name = "txtFiltro";
             this.txtFiltro.Size = new System.Drawing.Size(100, 20);
-=======
-            this.txtFiltro.Location = new System.Drawing.Point(248, 29);
-            this.txtFiltro.Name = "txtFiltro";
-            this.txtFiltro.Size = new System.Drawing.Size(119, 20);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.txtFiltro.TabIndex = 10;
             this.txtFiltro.TextChanged += new System.EventHandler(this.txtFiltro_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-<<<<<<< HEAD
             this.label2.Location = new System.Drawing.Point(52, 366);
-=======
-            this.label2.Location = new System.Drawing.Point(38, 365);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(40, 13);
             this.label2.TabIndex = 11;
@@ -218,11 +172,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-<<<<<<< HEAD
             this.label3.Location = new System.Drawing.Point(235, 366);
-=======
-            this.label3.Location = new System.Drawing.Point(226, 365);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(39, 13);
             this.label3.TabIndex = 12;
@@ -231,83 +181,63 @@
             // label4
             // 
             this.label4.AutoSize = true;
-<<<<<<< HEAD
             this.label4.Location = new System.Drawing.Point(439, 366);
-=======
-            this.label4.Location = new System.Drawing.Point(413, 365);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 13);
             this.label4.TabIndex = 13;
             this.label4.Text = "Filtro";
-<<<<<<< HEAD
             this.label4.Click += new System.EventHandler(this.label4_Click);
-=======
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             // 
             // cboCampo
             // 
             this.cboCampo.FormattingEnabled = true;
-<<<<<<< HEAD
             this.cboCampo.Location = new System.Drawing.Point(108, 366);
             this.cboCampo.Name = "cboCampo";
             this.cboCampo.Size = new System.Drawing.Size(121, 21);
             this.cboCampo.TabIndex = 14;
-=======
-            this.cboCampo.Location = new System.Drawing.Point(102, 361);
-            this.cboCampo.Name = "cboCampo";
-            this.cboCampo.Size = new System.Drawing.Size(100, 21);
-            this.cboCampo.TabIndex = 14;
-            this.cboCampo.SelectedIndexChanged += new System.EventHandler(this.cboCampo_SelectedIndexChanged);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             // 
             // cboCriterio
             // 
             this.cboCriterio.FormattingEnabled = true;
-<<<<<<< HEAD
             this.cboCriterio.Location = new System.Drawing.Point(280, 366);
             this.cboCriterio.Name = "cboCriterio";
             this.cboCriterio.Size = new System.Drawing.Size(121, 21);
-=======
-            this.cboCriterio.Location = new System.Drawing.Point(289, 361);
-            this.cboCriterio.Name = "cboCriterio";
-            this.cboCriterio.Size = new System.Drawing.Size(100, 21);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             this.cboCriterio.TabIndex = 15;
             // 
             // txtFiltroBusqueda
             // 
-<<<<<<< HEAD
             this.txtFiltroBusqueda.Location = new System.Drawing.Point(493, 363);
             this.txtFiltroBusqueda.Name = "txtFiltroBusqueda";
             this.txtFiltroBusqueda.Size = new System.Drawing.Size(100, 20);
             this.txtFiltroBusqueda.TabIndex = 16;
             // 
+            // btnMenuMarcas
+            // 
+            this.btnMenuMarcas.Location = new System.Drawing.Point(810, 308);
+            this.btnMenuMarcas.Name = "btnMenuMarcas";
+            this.btnMenuMarcas.Size = new System.Drawing.Size(98, 23);
+            this.btnMenuMarcas.TabIndex = 18;
+            this.btnMenuMarcas.Text = "Menu Marcas";
+            this.btnMenuMarcas.UseVisualStyleBackColor = true;
+            this.btnMenuMarcas.Click += new System.EventHandler(this.btnMenuMarcas_Click);
+            // 
             // btnMenuCategorias
             // 
-            this.btnMenuCategorias.Location = new System.Drawing.Point(650, 307);
+            this.btnMenuCategorias.Location = new System.Drawing.Point(686, 307);
             this.btnMenuCategorias.Name = "btnMenuCategorias";
-            this.btnMenuCategorias.Size = new System.Drawing.Size(140, 48);
-            this.btnMenuCategorias.TabIndex = 17;
-            this.btnMenuCategorias.Text = "Menú Categorías";
+            this.btnMenuCategorias.Size = new System.Drawing.Size(118, 23);
+            this.btnMenuCategorias.TabIndex = 19;
+            this.btnMenuCategorias.Text = "Menu Categorias";
             this.btnMenuCategorias.UseVisualStyleBackColor = true;
             this.btnMenuCategorias.Click += new System.EventHandler(this.btnMenuCategorias_Click);
-=======
-            this.txtFiltroBusqueda.Location = new System.Drawing.Point(466, 362);
-            this.txtFiltroBusqueda.Name = "txtFiltroBusqueda";
-            this.txtFiltroBusqueda.Size = new System.Drawing.Size(100, 20);
-            this.txtFiltroBusqueda.TabIndex = 16;
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             // 
             // frmArticulos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1085, 400);
-<<<<<<< HEAD
+            this.ClientSize = new System.Drawing.Size(1097, 402);
             this.Controls.Add(this.btnMenuCategorias);
-=======
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
+            this.Controls.Add(this.btnMenuMarcas);
             this.Controls.Add(this.txtFiltroBusqueda);
             this.Controls.Add(this.cboCriterio);
             this.Controls.Add(this.cboCampo);
@@ -355,9 +285,7 @@
         private System.Windows.Forms.ComboBox cboCampo;
         private System.Windows.Forms.ComboBox cboCriterio;
         private System.Windows.Forms.TextBox txtFiltroBusqueda;
-<<<<<<< HEAD
+        private System.Windows.Forms.Button btnMenuMarcas;
         private System.Windows.Forms.Button btnMenuCategorias;
-=======
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
     }
 }

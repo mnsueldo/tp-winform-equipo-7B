@@ -20,16 +20,12 @@ namespace Negocio
 
         public AccesoDatos()
         {
-<<<<<<< HEAD
-            
-            conexion = new SqlConnection("server=localhost; database=CATALOGO_P3_DB; integrated security=true");
-=======
-           // conexion = new SqlConnection("server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true");
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true");
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
+
+            //conexion = new SqlConnection("server=localhost; database=CATALOGO_P3_DB; integrated security=true");
+            conexion = new SqlConnection("server=DESKTOP-DCPT10S\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true");
             comando = new SqlCommand();
         }
-        
+
         public void setearConsulta(string consulta)
         {
             comando.CommandType = System.Data.CommandType.Text;
@@ -48,23 +44,6 @@ namespace Negocio
             {
                 throw ex;
             }
-        }
-        public void ejecutarAccion()
-        {
-            comando.Connection = conexion;
-            try
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public void setearParametro(string nombre, object valor)
-        {
-            comando.Parameters.AddWithValue(nombre, valor);
         }
 
         public void ejecutarAccion()

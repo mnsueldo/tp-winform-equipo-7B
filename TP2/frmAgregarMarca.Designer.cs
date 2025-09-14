@@ -36,11 +36,7 @@
             // 
             // btnAceptarMarca
             // 
-<<<<<<< HEAD
-            this.btnAceptarMarca.Location = new System.Drawing.Point(103, 194);
-=======
-            this.btnAceptarMarca.Location = new System.Drawing.Point(63, 129);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
+            this.btnAceptarMarca.Location = new System.Drawing.Point(78, 129);
             this.btnAceptarMarca.Name = "btnAceptarMarca";
             this.btnAceptarMarca.Size = new System.Drawing.Size(75, 23);
             this.btnAceptarMarca.TabIndex = 0;
@@ -50,11 +46,7 @@
             // 
             // btnCancelarMarca
             // 
-<<<<<<< HEAD
-            this.btnCancelarMarca.Location = new System.Drawing.Point(211, 194);
-=======
-            this.btnCancelarMarca.Location = new System.Drawing.Point(171, 129);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
+            this.btnCancelarMarca.Location = new System.Drawing.Point(186, 129);
             this.btnCancelarMarca.Name = "btnCancelarMarca";
             this.btnCancelarMarca.Size = new System.Drawing.Size(75, 23);
             this.btnCancelarMarca.TabIndex = 1;
@@ -64,11 +56,7 @@
             // 
             // txtDescripcionMarca
             // 
-<<<<<<< HEAD
-            this.txtDescripcionMarca.Location = new System.Drawing.Point(177, 107);
-=======
-            this.txtDescripcionMarca.Location = new System.Drawing.Point(138, 62);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
+            this.txtDescripcionMarca.Location = new System.Drawing.Point(152, 73);
             this.txtDescripcionMarca.Name = "txtDescripcionMarca";
             this.txtDescripcionMarca.Size = new System.Drawing.Size(109, 20);
             this.txtDescripcionMarca.TabIndex = 2;
@@ -76,29 +64,17 @@
             // lblDescripcionMarca
             // 
             this.lblDescripcionMarca.AutoSize = true;
-<<<<<<< HEAD
-            this.lblDescripcionMarca.Location = new System.Drawing.Point(100, 114);
-=======
-            this.lblDescripcionMarca.Location = new System.Drawing.Point(61, 69);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
+            this.lblDescripcionMarca.Location = new System.Drawing.Point(75, 80);
             this.lblDescripcionMarca.Name = "lblDescripcionMarca";
             this.lblDescripcionMarca.Size = new System.Drawing.Size(63, 13);
             this.lblDescripcionMarca.TabIndex = 3;
             this.lblDescripcionMarca.Text = "Descripcion";
-<<<<<<< HEAD
-           
-=======
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
             // 
             // frmAgregarMarca
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-<<<<<<< HEAD
-            this.ClientSize = new System.Drawing.Size(386, 303);
-=======
-            this.ClientSize = new System.Drawing.Size(309, 181);
->>>>>>> 792ff78601678c4d514f59504e6504e536469e3b
+            this.ClientSize = new System.Drawing.Size(319, 201);
             this.Controls.Add(this.lblDescripcionMarca);
             this.Controls.Add(this.txtDescripcionMarca);
             this.Controls.Add(this.btnCancelarMarca);
