@@ -1,0 +1,9 @@
+C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\AccesoDatos\bin\Debug\AccesoDatos.dll
+C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\AccesoDatos\bin\Debug\AccesoDatos.pdb
+C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\AccesoDatos\bin\Debug\dominio.dll
+C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\AccesoDatos\bin\Debug\dominio.pdb
+C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\AccesoDatos\obj\Debug\Negocio.csproj.AssemblyReference.cache
+C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\AccesoDatos\obj\Debug\Negocio.csproj.CoreCompileInputs.cache
+C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\AccesoDatos\obj\Debug\Negocio.csproj.Up2Date
+C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\AccesoDatos\obj\Debug\AccesoDatos.dll
+C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\AccesoDatos\obj\Debug\AccesoDatos.pdb
