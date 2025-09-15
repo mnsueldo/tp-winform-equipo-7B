@@ -22,7 +22,7 @@ namespace Negocio
         {
 
             //conexion = new SqlConnection("server=localhost; database=CATALOGO_P3_DB; integrated security=true");
-            conexion = new SqlConnection("server=DESKTOP-DCPT10S\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true");
+            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=CATALOGO_P3_DB; integrated security=true");
             comando = new SqlCommand();
         }
 

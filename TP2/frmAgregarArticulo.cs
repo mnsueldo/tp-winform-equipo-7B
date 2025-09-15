@@ -1,14 +1,18 @@
-﻿using System;
+﻿using dominio;
+using Negocio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using dominio;
-using Negocio;
+
 
 namespace TP2
 {
@@ -40,6 +44,7 @@ namespace TP2
                 cboMarca.ValueMember = "Id";
                 cboMarca.DisplayMember = "Descripcion";
                 
+                
                 if(articulo != null)
                 {
                     txtCodigo.Text = articulo.Codigo;
@@ -48,6 +53,7 @@ namespace TP2
                     txtPrecio.Text = articulo.Precio.ToString();
                     cboCategoria.SelectedValue = articulo.Categoria.Id;
                     cboMarca.SelectedValue = articulo.Marca.Id;
+                    
                 }
             }
             catch ( Exception ex)
@@ -98,6 +104,34 @@ namespace TP2
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void txtUrlImagen_Leave(object sender, EventArgs e)
+        {
+            CargarImagenSeguro(txtUrlImagen.Text);
+        }
+        private void CargarImagenSeguro(string url)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(url)) pbxArticulo.Load(url);
+                else pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+            }
+            catch { pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png"); }
+        }
+
+        private void btnAgregarImagen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog archivo = new OpenFileDialog();
+            archivo.Filter = "jpg|*.jpg";
+
+            if(archivo.ShowDialog() == DialogResult.OK)
+            {
+                txtUrlImagen.Text = archivo.FileName;
+                CargarImagenSeguro(archivo.FileName);
+
+                File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-folder"] + archivo.SafeFileName);
+            }
         }
     }
 }

@@ -37,8 +37,8 @@ namespace TP2
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            frmAgregarCategoria f = new frmAgregarCategoria();
-            f.ShowDialog();
+            frmAgregarCategoria categoria = new frmAgregarCategoria();
+            categoria.ShowDialog();
             cargar();
         }
 
@@ -47,8 +47,8 @@ namespace TP2
             if (dgvCategorias.CurrentRow == null) return;
 
             Categoria seleccionada = (Categoria)dgvCategorias.CurrentRow.DataBoundItem;
-            frmAgregarCategoria f = new frmAgregarCategoria(seleccionada);
-            f.ShowDialog();
+            frmAgregarCategoria categoria = new frmAgregarCategoria(seleccionada);
+            categoria.ShowDialog();
             cargar();
         }
 

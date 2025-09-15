@@ -13,7 +13,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("Select A.Id,Codigo, Nombre, A.Descripcion, Precio, C.Descripcion Categoria, M.Descripcion Marca, A.IdCategoria, A.IdMarca, I.ImagenUrl From ARTICULOS as A, CATEGORIAS as C, MARCAS as M, IMAGENES AS I WHERE C.Id = A.IdCategoria AND M.Id = A.IdMarca AND A.Id = I.IdArticulo");
+                datos.setearConsulta("SELECT A.Id, Codigo, Nombre, A.Descripcion, Precio, C.Descripcion Categoria, M.Descripcion Marca, A.IdCategoria, A.IdMarca, I.Id AS IdImagen, I.ImagenUrl FROM ARTICULOS AS A INNER JOIN CATEGORIAS AS C ON C.Id = A.IdCategoria INNER JOIN MARCAS AS M ON M.Id = A.IdMarca LEFT JOIN IMAGENES AS I ON A.Id = I.IdArticulo");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -143,18 +143,13 @@ namespace Negocio
 
             try
             {
-                // Base igual a tu listar, incluyendo la unión con IMAGENES
-                string consulta =
-                    "SELECT A.Id, Codigo, Nombre, A.Descripcion, Precio, " +
-                    "       C.Descripcion Categoria, M.Descripcion Marca, " +
-                    "       A.IdCategoria, A.IdMarca, I.ImagenUrl " +
-                    "FROM ARTICULOS AS A, CATEGORIAS AS C, MARCAS AS M, IMAGENES AS I " +
-                    "WHERE C.Id = A.IdCategoria AND M.Id = A.IdMarca AND A.Id = I.IdArticulo ";
+                
+                string consulta = "SELECT A.Id, Codigo, Nombre, A.Descripcion, Precio, " + "C.Descripcion Categoria, M.Descripcion Marca, " + "A.IdCategoria, A.IdMarca, I.ImagenUrl " + "FROM ARTICULOS AS A, CATEGORIAS AS C, MARCAS AS M, IMAGENES AS I " + "WHERE C.Id = A.IdCategoria AND M.Id = A.IdMarca AND A.Id = I.IdArticulo ";
 
-                // Agrego el filtro según el campo/criterio
+                
                 if (campo == "Precio")
                 {
-                    // Para precio uso comparadores numéricos
+                    
                     switch (criterio)
                     {
                         case "Mayor a":
@@ -182,7 +177,7 @@ namespace Negocio
                         case "Termina con":
                             datos.setearParametro("@filtro", "%" + filtro);
                             break;
-                        default: // "Contiene"
+                        default:
                             datos.setearParametro("@filtro", "%" + filtro + "%");
                             break;
                     }
@@ -251,7 +246,7 @@ namespace Negocio
                             break;
                     }
                 }
-                // Si el campo no coincide con ninguno, no agrego filtro extra.
+                
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -284,7 +279,7 @@ namespace Negocio
                     lista.Add(aux);
                 }
 
-                return lista; // <-- asegura que siempre devuelve lista
+                return lista; 
             }
             catch (Exception ex)
             {
