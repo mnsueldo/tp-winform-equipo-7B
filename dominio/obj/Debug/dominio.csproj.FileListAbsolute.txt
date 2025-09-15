@@ -1,6 +1,6 @@
-C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\dominio\bin\Debug\dominio.dll
-C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\dominio\bin\Debug\dominio.pdb
-C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\dominio\obj\Debug\dominio.csproj.AssemblyReference.cache
-C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\dominio\obj\Debug\dominio.csproj.CoreCompileInputs.cache
-C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\dominio\obj\Debug\dominio.dll
-C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\dominio\obj\Debug\dominio.pdb
+C:\Users\Facundo\OneDrive\Escritorio\utn\Segundo Cuatri 2025\Programacion 3\TP2\TP2\dominio\bin\Debug\dominio.dll
+C:\Users\Facundo\OneDrive\Escritorio\utn\Segundo Cuatri 2025\Programacion 3\TP2\TP2\dominio\bin\Debug\dominio.pdb
+C:\Users\Facundo\OneDrive\Escritorio\utn\Segundo Cuatri 2025\Programacion 3\TP2\TP2\dominio\obj\Debug\dominio.csproj.AssemblyReference.cache
+C:\Users\Facundo\OneDrive\Escritorio\utn\Segundo Cuatri 2025\Programacion 3\TP2\TP2\dominio\obj\Debug\dominio.csproj.CoreCompileInputs.cache
+C:\Users\Facundo\OneDrive\Escritorio\utn\Segundo Cuatri 2025\Programacion 3\TP2\TP2\dominio\obj\Debug\dominio.dll
+C:\Users\Facundo\OneDrive\Escritorio\utn\Segundo Cuatri 2025\Programacion 3\TP2\TP2\dominio\obj\Debug\dominio.pdb
