@@ -1,0 +1,44 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|c:\\users\\casa\\desktop\\utn\\3re cuatrimestre\\programacion iii\\repositorio\\programacion-iii\\tp2\\frmarticulos.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
+      "RelativeMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|solutionrelative:tp2\\frmarticulos.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "frmArticulos.resx",
+              "DocumentMoniker": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\TP2\\frmArticulos.resx",
+              "RelativeDocumentMoniker": "TP2\\frmArticulos.resx",
+              "ToolTip": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\TP2\\frmArticulos.resx",
+              "RelativeToolTip": "TP2\\frmArticulos.resx",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2025-09-14T20:19:54.147Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
