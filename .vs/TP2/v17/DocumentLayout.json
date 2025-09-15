@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\",
+  "WorkspaceRootPath": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\tp-winform-equipo-7B\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|c:\\users\\casa\\desktop\\utn\\3re cuatrimestre\\programacion iii\\repositorio\\programacion-iii\\tp2\\frmarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|c:\\users\\casa\\desktop\\utn\\3re cuatrimestre\\programacion iii\\repositorio\\programacion-iii\\tp-winform-equipo-7b\\tp2\\frmarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|solutionrelative:tp2\\frmarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|c:\\users\\casa\\desktop\\utn\\3re cuatrimestre\\programacion iii\\repositorio\\programacion-iii\\tp2\\frmarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\tp-winform-equipo-7B\\tp2\\frmarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|solutionrelative:tp2\\frmarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -32,9 +32,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "frmArticulos.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\TP2\\frmArticulos.cs",
+              "DocumentMoniker": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\tp-winform-equipo-7B\\TP2\\frmArticulos.cs",
               "RelativeDocumentMoniker": "TP2\\frmArticulos.cs",
-              "ToolTip": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\TP2\\frmArticulos.cs [Design]",
+              "ToolTip": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\tp-winform-equipo-7B\\TP2\\frmArticulos.cs [Design]",
               "RelativeToolTip": "TP2\\frmArticulos.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-14T20:22:00.643Z",
@@ -44,14 +44,13 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "frmArticulos.cs",
-              "DocumentMoniker": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\TP2\\frmArticulos.cs",
+              "DocumentMoniker": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\tp-winform-equipo-7B\\TP2\\frmArticulos.cs",
               "RelativeDocumentMoniker": "TP2\\frmArticulos.cs",
-              "ToolTip": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\TP2\\frmArticulos.cs",
+              "ToolTip": "C:\\Users\\Casa\\Desktop\\UTN\\3re cuatrimestre\\Programacion III\\Repositorio\\Programacion-III\\tp-winform-equipo-7B\\TP2\\frmArticulos.cs",
               "RelativeToolTip": "TP2\\frmArticulos.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-14T20:21:25.703Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-14T20:21:25.703Z"
             }
           ]
         }
