@@ -18,25 +18,13 @@ namespace TP2
 
         private void frmArticulos_Load(object sender, EventArgs e)
         {
-            cargar();
-
-            // Ocultar lo de abajo que ya no usás
-            if (btnMenuCategorias != null) btnMenuCategorias.Visible = false;
-            if (label2 != null) label2.Visible = false;        // "Campo"
-            if (label3 != null) label3.Visible = false;        // "Criterio"
-            if (label4 != null) label4.Visible = false;        // "Filtro"
-            if (cboCampo != null) cboCampo.Visible = false;
-            if (cboCriterio != null) cboCriterio.Visible = false;
-            if (txtFiltroBusqueda != null) txtFiltroBusqueda.Visible = false;
-            if (btnBuscar != null) btnBuscar.Visible = false;
-
-            // Tooltip para ver texto completo
+            cargar();       
+                                           
             if (dgvArticulos != null)
                 dgvArticulos.CellFormatting += dgvArticulos_CellFormatting;
 
             SuscribirEventosDetalleUnaVez();
-
-            // Panel de búsqueda de arriba (Texto / Marca / Categoría / Precio entre)
+            
             InitBusquedaSimple();
         }
 
@@ -64,7 +52,7 @@ namespace TP2
                 dgvArticulos.DataSource = null;
                 dgvArticulos.DataSource = listaArticulo;
                 ocultarColumnas();
-                FormatearGrilla();               // <<<<<< importante
+                FormatearGrilla();               
                 MostrarImagenSeleccionActual();
             }
             catch (Exception ex)
@@ -72,33 +60,30 @@ namespace TP2
                 MessageBox.Show(ex.ToString());
             }
         }
-
-        // ===== Ajuste de columnas (soluciona que "Descripción" se corte) =====
+               
         private void FormatearGrilla()
         {
             if (dgvArticulos == null || dgvArticulos.Columns.Count == 0) return;
 
             dgvArticulos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvArticulos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None; // fila normal
+            dgvArticulos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None; 
             dgvArticulos.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
-
-            // Pesos (FillWeight) para repartir ancho. Damos más a Descripción.
+                        
             SetFill("Codigo", 70, "Código");
             SetFill("Nombre", 120, "Nombre");
-            SetFill("Descripcion", 260, "Descripción");  // << más ancho
+            SetFill("Descripcion", 260, "Descripción");  
             SetFill("Marca", 100, "Marca");
             SetFill("Categoria", 110, "Categoría");
             SetFill("Precio", 90, "Precio");
 
-            // Precio alineado y con dos decimales
+            
             var colPrecio = dgvArticulos.Columns["Precio"];
             if (colPrecio != null)
             {
                 colPrecio.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 colPrecio.DefaultCellStyle.Format = "N2";
             }
-
-            // Tooltip visible
+                        
             dgvArticulos.ShowCellToolTips = true;
         }
 
@@ -107,11 +92,10 @@ namespace TP2
             var col = dgvArticulos.Columns[name];
             if (col == null) return;
             col.FillWeight = weight;
-            col.MinimumWidth = (int)(weight * 0.4); // evita que se achique demasiado
+            col.MinimumWidth = (int)(weight * 0.4); 
             if (!string.IsNullOrEmpty(headerText)) col.HeaderText = headerText;
         }
-
-        // Tooltip con el texto completo (especialmente en Descripción)
+                
         private void dgvArticulos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
@@ -150,17 +134,18 @@ namespace TP2
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            using (var agregar = new frmAgregarArticulo()) agregar.ShowDialog();
+            frmAgregarArticulo agregar = new frmAgregarArticulo();
+            agregar.ShowDialog();
             cargar();
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            if (dgvArticulos?.CurrentRow == null) return;
-            var seleccionado = dgvArticulos.CurrentRow.DataBoundItem as Articulo;
-            if (seleccionado == null) return;
+            Articulo seleccionado;
+            seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
 
-            using (var modificar = new frmAgregarArticulo(seleccionado)) modificar.ShowDialog();
+            frmAgregarArticulo modificar = new frmAgregarArticulo(seleccionado);
+            modificar.ShowDialog();
             cargar();
         }
 
@@ -168,67 +153,39 @@ namespace TP2
         {
             try
             {
-                if (dgvArticulos?.CurrentRow == null) return;
-                var seleccionado = dgvArticulos.CurrentRow.DataBoundItem as Articulo;
-                if (seleccionado == null) return;
+                if (dgvArticulos.CurrentRow == null)
+                    return;
 
-                var resp = MessageBox.Show("¿Eliminar físicamente el artículo seleccionado?",
-                                           "Confirmar eliminación",
-                                           MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+                var resp = MessageBox.Show(
+                    "¿Eliminar físicamente el artículo seleccionado?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
 
                 if (resp == DialogResult.Yes)
                 {
-                    var negocio = new ArticuloNegocio();
+                    ArticuloNegocio negocio = new ArticuloNegocio();
                     negocio.eliminarFisico(seleccionado.Id);
                     cargar();
                 }
             }
-            catch (Exception ex) { MessageBox.Show(ex.ToString()); }
-        }
-
-        private void btnCategorias_Click(object sender, EventArgs e)
-        {
-            using (var f = new frmCategorias()) f.ShowDialog();
-        }
-
-        private void btnMarcas_Click(object sender, EventArgs e)
-        {
-            using (var f = new frmMarcas()) f.ShowDialog();
-        }
-
-        // Filtro rápido (si lo seguís usando)
-        private void txtFiltro_TextChanged(object sender, EventArgs e)
-        {
-            if (listaArticulo == null) return;
-
-            List<Articulo> listaFiltrada;
-            string texto = txtFiltro.Text;
-
-            if (!string.IsNullOrWhiteSpace(texto) && texto.Trim().Length >= 2)
+            catch (Exception ex)
             {
-                var f = texto.Trim().ToUpper();
-                listaFiltrada = listaArticulo.FindAll(x =>
-                    (x.Codigo ?? "").ToUpper().Contains(f) ||
-                    (x.Nombre ?? "").ToUpper().Contains(f) ||
-                    (x.Descripcion ?? "").ToUpper().Contains(f) ||
-                    (x.Marca?.Descripcion ?? "").ToUpper().Contains(f) ||
-                    (x.Categoria?.Descripcion ?? "").ToUpper().Contains(f));
+                MessageBox.Show(ex.ToString());
             }
-            else
-            {
-                listaFiltrada = listaArticulo;
-            }
-
-            dgvArticulos.DataSource = null;
-            dgvArticulos.DataSource = listaFiltrada;
-            ocultarColumnas();
-            FormatearGrilla();                 // <<<<<< importante
-            MostrarImagenSeleccionActual();
         }
+           
+                          
 
-        private void btnMenuCategorias_Click(object sender, EventArgs e) { /* oculto */ }
-        private void btnBuscar_Click(object sender, EventArgs e) { /* oculto */ }
-        private void label4_Click(object sender, EventArgs e) { /* oculto */ }
+        private void btnMenuCategorias_Click(object sender, EventArgs e)
+        {
+            frmCategorias agregar = new frmCategorias();
+            agregar.ShowDialog();
+            cargar();
+        }       
 
         private void btnVerDetalle_Click(object sender, EventArgs e)
         {
@@ -237,6 +194,13 @@ namespace TP2
             if (seleccionado == null) { MessageBox.Show("No se pudo obtener el artículo seleccionado."); return; }
 
             using (var frm = new frmDetalleArticulo(seleccionado)) frm.ShowDialog(this);
+        }
+
+        private void btnMenuMarcas_Click(object sender, EventArgs e)
+        {
+            frmMarcas agregar = new frmMarcas();
+            agregar.ShowDialog();
+            cargar();
         }
     }
 }

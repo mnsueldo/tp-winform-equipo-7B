@@ -24,7 +24,7 @@
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(85, 115);
+            this.btnAceptar.Location = new System.Drawing.Point(64, 89);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(90, 27);
             this.btnAceptar.TabIndex = 0;
@@ -34,7 +34,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(181, 115);
+            this.btnCancelar.Location = new System.Drawing.Point(160, 89);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(90, 27);
             this.btnCancelar.TabIndex = 1;
@@ -45,7 +45,7 @@
             // lblDescripcion
             // 
             this.lblDescripcion.AutoSize = true;
-            this.lblDescripcion.Location = new System.Drawing.Point(25, 54);
+            this.lblDescripcion.Location = new System.Drawing.Point(61, 52);
             this.lblDescripcion.Name = "lblDescripcion";
             this.lblDescripcion.Size = new System.Drawing.Size(66, 13);
             this.lblDescripcion.TabIndex = 2;
@@ -53,16 +53,16 @@
             // 
             // txtDescripcionCategoria
             // 
-            this.txtDescripcionCategoria.Location = new System.Drawing.Point(97, 51);
+            this.txtDescripcionCategoria.Location = new System.Drawing.Point(133, 49);
             this.txtDescripcionCategoria.Name = "txtDescripcionCategoria";
-            this.txtDescripcionCategoria.Size = new System.Drawing.Size(232, 20);
+            this.txtDescripcionCategoria.Size = new System.Drawing.Size(117, 20);
             this.txtDescripcionCategoria.TabIndex = 3;
             // 
             // frmAgregarCategoria
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(360, 170);
+            this.ClientSize = new System.Drawing.Size(326, 169);
             this.Controls.Add(this.txtDescripcionCategoria);
             this.Controls.Add(this.lblDescripcion);
             this.Controls.Add(this.btnCancelar);
@@ -73,6 +73,7 @@
             this.Load += new System.EventHandler(this.frmAgregarCategoria_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
     }
 }
