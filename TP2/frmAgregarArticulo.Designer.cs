@@ -42,11 +42,11 @@
             this.cboMarca = new System.Windows.Forms.ComboBox();
             this.txtPrecio = new System.Windows.Forms.TextBox();
             this.lblPrecio = new System.Windows.Forms.Label();
-            this.pbxArticulo = new System.Windows.Forms.PictureBox();
+            this.pbxImagenArticulo = new System.Windows.Forms.PictureBox();
             this.lblUrlImagen = new System.Windows.Forms.Label();
             this.txtUrlImagen = new System.Windows.Forms.TextBox();
             this.btnAgregarImagen = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxImagenArticulo)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAceptar
@@ -169,14 +169,14 @@
             this.lblPrecio.TabIndex = 14;
             this.lblPrecio.Text = "Precio";
             // 
-            // pbxArticulo
+            // pbxImagenArticulo
             // 
-            this.pbxArticulo.Location = new System.Drawing.Point(358, 67);
-            this.pbxArticulo.Name = "pbxArticulo";
-            this.pbxArticulo.Size = new System.Drawing.Size(231, 241);
-            this.pbxArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pbxArticulo.TabIndex = 15;
-            this.pbxArticulo.TabStop = false;
+            this.pbxImagenArticulo.Location = new System.Drawing.Point(358, 67);
+            this.pbxImagenArticulo.Name = "pbxImagenArticulo";
+            this.pbxImagenArticulo.Size = new System.Drawing.Size(231, 241);
+            this.pbxImagenArticulo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbxImagenArticulo.TabIndex = 15;
+            this.pbxImagenArticulo.TabStop = false;
             // 
             // lblUrlImagen
             // 
@@ -212,7 +212,7 @@
             this.Controls.Add(this.btnAgregarImagen);
             this.Controls.Add(this.txtUrlImagen);
             this.Controls.Add(this.lblUrlImagen);
-            this.Controls.Add(this.pbxArticulo);
+            this.Controls.Add(this.pbxImagenArticulo);
             this.Controls.Add(this.lblPrecio);
             this.Controls.Add(this.txtPrecio);
             this.Controls.Add(this.cboMarca);
@@ -231,7 +231,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Agregar Articulo";
             this.Load += new System.EventHandler(this.frmAgregarArticulo_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbxImagenArticulo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,7 +253,7 @@
         private System.Windows.Forms.ComboBox cboMarca;
         private System.Windows.Forms.TextBox txtPrecio;
         private System.Windows.Forms.Label lblPrecio;
-        private System.Windows.Forms.PictureBox pbxArticulo;
+        private System.Windows.Forms.PictureBox pbxImagenArticulo;
         private System.Windows.Forms.Label lblUrlImagen;
         private System.Windows.Forms.TextBox txtUrlImagen;
         private System.Windows.Forms.Button btnAgregarImagen;

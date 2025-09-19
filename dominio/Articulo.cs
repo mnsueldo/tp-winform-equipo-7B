@@ -24,7 +24,9 @@ namespace dominio
 
         public decimal Precio { get; set; }
 
-        public List<Imagen> Imagenes { get; set; } = new List<Imagen>();
+        public string UrlImagen { get; set; }
+
+        public List<string> Imagenes { get; set; }
 
         public override string ToString() => $"{Codigo} - {Nombre}";
     }

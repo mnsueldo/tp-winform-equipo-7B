@@ -15,6 +15,8 @@ namespace TP2
     public partial class frmAgregarArticulo : Form
     {
         private Articulo articulo = null;
+        private int indiceImagenActual = 0;
+        private Articulo articuloActual = null;
         public frmAgregarArticulo()
         {
             InitializeComponent();
@@ -31,6 +33,7 @@ namespace TP2
             ArticuloNegocio articuloNegocio = new ArticuloNegocio();
             CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
             MarcaNegocio marcaNegocio = new MarcaNegocio();
+
             try
             {
                 cboCategoria.DataSource = categoriaNegocio.listar();
@@ -54,20 +57,25 @@ namespace TP2
             catch ( Exception ex)
             {
 
-                throw ex;
+                MessageBox.Show(ex.ToString());
             }
+
+            articuloActual = articulo;
+            indiceImagenActual = 0;
+            MostrarImagenActual();
         }
         private void cargarImagen(string imagen)
         {
             try
             {
-                pbxArticulo.Load(imagen);
+                pbxImagenArticulo.Load(imagen);
             }
             catch (Exception)
             {
-                pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+                pbxImagenArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
             }
         }
+
         private void btnAceptar_Click(object sender, EventArgs e)
         {
            
@@ -121,16 +129,27 @@ namespace TP2
                 articulo.Descripcion = txtDescripcion.Text;
                 articulo.Categoria = (Categoria)cboCategoria.SelectedItem;
                 articulo.Marca = (Marca)cboMarca.SelectedItem;
-                articulo.Precio = decimal.Parse(txtPrecio.Text);               
+                articulo.Precio = decimal.Parse(txtPrecio.Text);
+
+                if (!string.IsNullOrEmpty(url))
+                {
+                    if (articulo.Imagenes == null)
+                        articulo.Imagenes = new List<string>();
+
+                    if (!articulo.Imagenes.Contains(url))
+                        articulo.Imagenes.Add(url);
+                }
 
                 if (articulo.Id != 0)
                 {
                     articuloNegocio.modificar(articulo);
+                    articuloNegocio.guardarImagenes(articulo.Id, articulo.Imagenes);
                     MessageBox.Show("Articulo modificado correctamente");
                 }
                 else
                 {
-                    articuloNegocio.agregar(articulo);
+                    int nuevoId = articuloNegocio.agregar(articulo);
+                    articuloNegocio.guardarImagenes(nuevoId, articulo.Imagenes);
                     MessageBox.Show("Articulo agregado correctamente");
                 }
                                  
@@ -140,7 +159,7 @@ namespace TP2
             catch (Exception ex)
             {
 
-                throw ex;
+                MessageBox.Show(ex.ToString());
             }
         }
 
@@ -150,9 +169,62 @@ namespace TP2
         }
 
         private void txtUrlImagen_Leave(object sender, EventArgs e)
-        {           
-        
+        {
+            
             cargarImagen(txtUrlImagen.Text);
+        }
+
+        private void MostrarImagenActual()
+        {
+            
+            if (articulo == null || articulo.Imagenes == null || articulo.Imagenes.Count == 0)
+            {
+                pbxImagenArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+                return;
+            }
+
+            try
+            {
+                
+                pbxImagenArticulo.Load(articulo.Imagenes[indiceImagenActual]);
+            }
+            catch
+            {
+
+                pbxImagenArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+            }
+        }
+
+        private void btnAgregarImagen_Click(object sender, EventArgs e)
+        {
+            string url = txtUrlImagen.Text.Trim();
+            if (!string.IsNullOrEmpty(url))
+            {
+                
+                if (!(url.StartsWith("http://") || url.StartsWith("https://")))
+                {
+                    MessageBox.Show("La URL de la imagen debe comenzar con http:// o https://");
+                    return;
+                }
+                if (articulo.Imagenes == null)
+                    articulo.Imagenes = new List<string>();
+                
+                if (articulo.Imagenes.Contains(url))
+                {
+                    MessageBox.Show("La imagen ya fue agregada.");
+                    return;
+                }
+                
+                articulo.Imagenes.Add(url);
+                
+                indiceImagenActual = articulo.Imagenes.Count - 1;
+                MostrarImagenActual();                
+                txtUrlImagen.Clear();
+            }
+            else
+            {
+                MessageBox.Show("Ingrese una URL de imagen válida.");
+            }
         }
     }
 }

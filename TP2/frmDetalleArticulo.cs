@@ -56,7 +56,7 @@ namespace TP2
             if (idxImagen < 0) idxImagen = articulo.Imagenes.Count - 1;
             if (idxImagen >= articulo.Imagenes.Count) idxImagen = 0;
 
-            var url = articulo.Imagenes[idxImagen].ImagenUrl;
+            var url = articulo.UrlImagen;
 
             try
             {

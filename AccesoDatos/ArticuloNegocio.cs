@@ -1,6 +1,7 @@
-﻿using System;
+﻿using dominio;
+using System;
 using System.Collections.Generic;
-using dominio;
+using System.Data.SqlClient;
 
 namespace Negocio
 {
@@ -37,7 +38,9 @@ namespace Negocio
                     aux.Marca.Id = (int)datos.Lector["IdMarca"];
                     aux.Marca.Descripcion = (string)datos.Lector["Marca"];
 
-                    
+                    aux.UrlImagen = ObtenerPrimeraImagenValida(aux.Id);                    
+                    aux.Imagenes = ObtenerImagenesPorId(aux.Id);
+
                     lista.Add(aux);
                 }
 
@@ -53,14 +56,15 @@ namespace Negocio
             }
         }
         
-        public void agregar(Articulo nuevo)
+        public int agregar(Articulo nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
             Imagen imagen = new Imagen();
+            int idGenerado = 0;
 
             try
             {
-                datos.setearConsulta("INSERT into ARTICULOS (Codigo, Nombre, Descripcion,IdCategoria,IdMarca,Precio)values(@Codigo, @Nombre, @Descripcion,@IdCategoria,@IdMarca,@Precio)");
+                datos.setearConsulta("INSERT into ARTICULOS (Codigo, Nombre, Descripcion,IdCategoria,IdMarca,Precio) OUTPUT INSERTED.Id values(@Codigo, @Nombre, @Descripcion,@IdCategoria,@IdMarca,@Precio)");
                 datos.setearParametro("@Codigo", nuevo.Codigo);
                 datos.setearParametro("@Nombre", nuevo.Nombre);
                 datos.setearParametro("@Descripcion", nuevo.Descripcion);                
@@ -68,7 +72,7 @@ namespace Negocio
                 datos.setearParametro("@IdMarca", nuevo.Marca.Id);
                 datos.setearParametro("@Precio", nuevo.Precio);
                 
-                datos.ejecutarAccion();
+                datos.ejecutarExcalar(idGenerado);
             }
             catch (Exception ex)
             {
@@ -78,6 +82,8 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
+
+            return idGenerado;
         }
        
         public void modificar(Articulo nuevo)
@@ -275,6 +281,110 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public string ObtenerPrimeraImagenValida(int idArticulo)
+        {
+            
+            AccesoDatos datos = new AccesoDatos();
+            {
+                datos.setearConsulta("SELECT TOP 1 ImagenUrl FROM IMAGENES WHERE IdArticulo = @idArticulo");
+                
+                datos.setearParametro("@idArticulo", idArticulo);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    return (string)datos.Lector["ImagenUrl"];
+                }
+            }
+            return null;
+        }
+        public List<string> ObtenerImagenesPorId(int idArticulo)
+        {
+            var imagenes = new List<string>();
+            AccesoDatos datos = new AccesoDatos();
+            {
+                datos.setearConsulta("SELECT ImagenUrl FROM IMAGENES WHERE IdArticulo = @idArticulo");
+                
+                datos.setearParametro("@idArticulo", idArticulo);
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    imagenes.Add((string)datos.Lector["ImagenUrl"]);
+                }
+            return imagenes;
+            }
+        }
+
+        public static bool EsImagenValida(string url)
+        {
+            try
+            {
+                // Se crea una solicitud HTTP para la URL indicada.
+                // WebRequest.Create genera un objeto que permite interactuar con el recurso remoto.
+                var request = System.Net.WebRequest.Create(url);
+
+                // Se especifica el método HTTP a usar, en este caso GET, que es el estándar para obtener recursos.
+                request.Method = "GET";
+
+                // Se establece un tiempo máximo de espera (timeout) de 3 segundos para evitar que la aplicación se bloquee si la URL no responde.
+                request.Timeout = 3000; // 3 segundos
+
+                // Se envía la solicitud y se obtiene la respuesta del servidor.
+                // Si la URL es válida y el recurso está disponible, se recibe una respuesta.
+                using (var response = request.GetResponse())
+                {
+                    // Se verifica el código de estado HTTP de la respuesta.
+                    // Si el código es OK (200), significa que la imagen existe y es accesible.
+                    return ((System.Net.HttpWebResponse)response).StatusCode == System.Net.HttpStatusCode.OK;
+                }
+            }
+            catch
+            {
+                // Si ocurre cualquier excepción (por ejemplo, la URL no existe, no hay conexión, o el recurso no está disponible),
+                // el método retorna false indicando que la imagen no es válida o no se pudo acceder.
+                return false;
+            }
+            // este metodo lo saque de https://stackoverflow.com/questions/11082804/detecting-image-url-in-c-net por si lo tengo que volver a buscar
+        }
+
+        public void guardarImagenes(int idArticulo, List<string> imagenes)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            {
+                try
+                {
+                    if (imagenes == null)
+                    return;           
+                       
+                    datos.setearConsulta("DELETE FROM IMAGENES WHERE IdArticulo = @idArticulo");
+                    datos.setearParametro("@idArticulo", idArticulo);
+                    datos.ejecutarAccion();
+
+
+                    foreach (var url in imagenes)
+                    {
+                        datos.setearConsulta("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@idArticulo, @url)");
+                        datos.setearParametro("@idArticulo", idArticulo);
+                        datos.setearParametro("@url", url);
+                        datos.ejecutarAccion(); 
+                    }
+
+                    }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+                finally
+                {
+                    datos.cerrarConexion();
+                }
+                
+            }
+        }
+        
+
+
     }
 }
   

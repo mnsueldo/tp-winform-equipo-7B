@@ -44,7 +44,19 @@ namespace Negocio
                 throw ex;
             }
         }
-
+        public void ejecutarExcalar(int id)
+        {
+            comando.Connection = conexion;
+            try
+            {
+                conexion.Open();
+                comando.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public void ejecutarAccion()
         {
             comando.Connection = conexion;

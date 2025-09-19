@@ -9,6 +9,8 @@ namespace TP2
     public partial class frmArticulos : Form
     {
         private List<Articulo> listaArticulo;
+        private int indiceImagenActual = 0;
+        private Articulo articuloActual = null;
         private bool eventosInicializados = false;
 
         public frmArticulos()
@@ -38,7 +40,7 @@ namespace TP2
         private void ocultarColumnas()
         {
             if (dgvArticulos.Columns["Id"] != null)
-                dgvArticulos.Columns["Id"].Visible = false;
+                dgvArticulos.Columns["Id"].Visible = false;           
         }
 
         private void cargar()
@@ -112,7 +114,7 @@ namespace TP2
             if (seleccionado == null) { CargarImagenSeguro(null); return; }
 
             if (seleccionado.Imagenes != null && seleccionado.Imagenes.Count > 0)
-                CargarImagenSeguro(seleccionado.Imagenes[0].ImagenUrl);
+                CargarImagenSeguro(seleccionado.UrlImagen);
             else
                 CargarImagenSeguro(null);
         }
@@ -137,43 +139,52 @@ namespace TP2
         private void btnModificar_Click(object sender, EventArgs e)
         {
             Articulo seleccionado;
-            seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+            if(dgvArticulos.CurrentRow != null)
 
+            {
+            seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
             frmAgregarArticulo modificar = new frmAgregarArticulo(seleccionado);
             modificar.ShowDialog();
             cargar();
+
+            }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione un artículo para modificar.");
+            }
+                
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             try
             {
-                if (dgvArticulos.CurrentRow == null)
-                    return;
-
-                Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-
-                var resp = MessageBox.Show(
-                    "¿Eliminar físicamente el artículo seleccionado?",
-                    "Confirmar eliminación",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning
-                );
-
-                if (resp == DialogResult.Yes)
+                if (dgvArticulos.CurrentRow != null)
                 {
-                    ArticuloNegocio negocio = new ArticuloNegocio();
-                    negocio.eliminarFisico(seleccionado.Id);
-                    cargar();
+                    Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+
+                    var resp = MessageBox.Show(
+                        "¿Eliminar físicamente el artículo seleccionado?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (resp == DialogResult.Yes)
+                    {
+                        ArticuloNegocio negocio = new ArticuloNegocio();
+                        negocio.eliminarFisico(seleccionado.Id);
+                        cargar();
+                    }
+
                 }
+                else
+                {
+                    MessageBox.Show("Por favor, seleccione un artículo para eliminar.");
+                }
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
-           
-                          
+                                     
 
         private void btnMenuCategorias_Click(object sender, EventArgs e)
         {
@@ -195,6 +206,36 @@ namespace TP2
             if (seleccionado == null) { MessageBox.Show("No se pudo obtener el artículo seleccionado."); return; }
 
             using (var frm = new frmDetalleArticulo(seleccionado)) frm.ShowDialog(this);
+        }
+
+        private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
+        {
+            
+            if (dgvArticulos.CurrentRow != null)
+            {
+                articuloActual = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;             
+                indiceImagenActual = 0;                               
+                MostrarImagenActual();
+            }
+        }
+
+        private void MostrarImagenActual()
+        {
+            
+            if (articuloActual == null || articuloActual.Imagenes == null || articuloActual.Imagenes.Count == 0)
+            {                
+                pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+                return;
+            }
+
+            try
+            {                
+                pbxArticulo.Load(articuloActual.Imagenes[indiceImagenActual]);
+            }
+            catch
+            {
+                pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+            }
         }
     }
 
