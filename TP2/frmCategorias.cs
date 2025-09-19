@@ -77,7 +77,7 @@ namespace TP2
             }
             catch (Exception ex)
             {
-                // Si la categoría está en uso, acá verás el mensaje del throw
+                
                 MessageBox.Show(ex.Message);
             }
         }

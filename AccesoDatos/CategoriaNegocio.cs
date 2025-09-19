@@ -56,10 +56,10 @@ namespace Negocio
             finally { datos.cerrarConexion(); }
         }
 
-        // Eliminación física (y bloqueo si está en uso por algún artículo)
+       
         public void eliminarFisico(int id)
         {
-            // 1) verificar uso
+            
             int cantidad = 0;
             AccesoDatos verifica = new AccesoDatos();
             try
@@ -76,7 +76,7 @@ namespace Negocio
             if (cantidad > 0)
                 throw new Exception("No se puede eliminar la categoría porque tiene artículos asociados.");
 
-            // 2) borrar
+            
             AccesoDatos datos = new AccesoDatos();
             try
             {
@@ -88,7 +88,7 @@ namespace Negocio
             finally { datos.cerrarConexion(); }
         }
 
-        // Alias opcional si en algún lado llaman a "eliminar"
+        
         public void eliminar(int id)
         {
             eliminarFisico(id);

@@ -23,8 +23,7 @@ namespace TP2
             if (dgvArticulos != null)
                 dgvArticulos.CellFormatting += dgvArticulos_CellFormatting;
 
-            SuscribirEventosDetalleUnaVez();
-            
+            SuscribirEventosDetalleUnaVez();            
             InitBusquedaSimple();
         }
 
@@ -104,12 +103,8 @@ namespace TP2
             if (e.Value != null)
                 cell.ToolTipText = e.Value.ToString();
         }
-
-        private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
-        {
-            MostrarImagenSeleccionActual();
-        }
-
+              
+       
         private void MostrarImagenSeleccionActual()
         {
             if (dgvArticulos?.CurrentRow == null) { CargarImagenSeguro(null); return; }
@@ -186,6 +181,12 @@ namespace TP2
             agregar.ShowDialog();
             cargar();
         }       
+        private void btnMenuMarcas_Click(object sender, EventArgs e)
+        {
+            frmMarcas agregar = new frmMarcas();
+            agregar.ShowDialog();
+            cargar();
+        }
 
         private void btnVerDetalle_Click(object sender, EventArgs e)
         {
@@ -195,12 +196,6 @@ namespace TP2
 
             using (var frm = new frmDetalleArticulo(seleccionado)) frm.ShowDialog(this);
         }
-
-        private void btnMenuMarcas_Click(object sender, EventArgs e)
-        {
-            frmMarcas agregar = new frmMarcas();
-            agregar.ShowDialog();
-            cargar();
-        }
     }
+
 }

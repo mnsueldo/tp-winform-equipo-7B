@@ -47,7 +47,8 @@ namespace TP2
                     txtDescripcion.Text = articulo.Descripcion;
                     txtPrecio.Text = articulo.Precio.ToString();
                     cboCategoria.SelectedValue = articulo.Categoria.Id;
-                    cboMarca.SelectedValue = articulo.Marca.Id;
+                    cboMarca.SelectedValue = articulo.Marca.Id;                    
+                    
                 }
             }
             catch ( Exception ex)
@@ -56,12 +57,60 @@ namespace TP2
                 throw ex;
             }
         }
-
+        private void cargarImagen(string imagen)
+        {
+            try
+            {
+                pbxArticulo.Load(imagen);
+            }
+            catch (Exception)
+            {
+                pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+            }
+        }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
            
             ArticuloNegocio articuloNegocio = new ArticuloNegocio();
 
+            if (string.IsNullOrWhiteSpace(txtCodigo.Text))
+            {
+                MessageBox.Show("El código es obligatorio.");
+                return;
+            }
+            
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            {
+                MessageBox.Show("El nombre es obligatorio.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
+            {
+                MessageBox.Show("La descripción es obligatoria.");
+                return;
+            }
+            if (cboMarca.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar una marca.");
+                return;
+            }
+            if (cboCategoria.SelectedItem == null)
+            {
+                MessageBox.Show("Debe seleccionar una categoría.");
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txtPrecio.Text) || !decimal.TryParse(txtPrecio.Text, out decimal precio) || precio <= 0)
+            {
+                MessageBox.Show("El precio debe ser un número positivo.");
+                return;
+            }
+            
+            string url = txtUrlImagen.Text.Trim();
+            if (!string.IsNullOrEmpty(url) && !(url.StartsWith("http://") || url.StartsWith("https://")))
+            {
+                MessageBox.Show("La URL de la imagen debe comenzar con http:// o https://");
+                return;
+            }
             try
             {
                 if (articulo == null)
@@ -72,9 +121,9 @@ namespace TP2
                 articulo.Descripcion = txtDescripcion.Text;
                 articulo.Categoria = (Categoria)cboCategoria.SelectedItem;
                 articulo.Marca = (Marca)cboMarca.SelectedItem;
-                articulo.Precio = decimal.Parse(txtPrecio.Text);
+                articulo.Precio = decimal.Parse(txtPrecio.Text);               
 
-                if(articulo.Id != 0)
+                if (articulo.Id != 0)
                 {
                     articuloNegocio.modificar(articulo);
                     MessageBox.Show("Articulo modificado correctamente");
@@ -98,6 +147,12 @@ namespace TP2
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void txtUrlImagen_Leave(object sender, EventArgs e)
+        {           
+        
+            cargarImagen(txtUrlImagen.Text);
         }
     }
 }

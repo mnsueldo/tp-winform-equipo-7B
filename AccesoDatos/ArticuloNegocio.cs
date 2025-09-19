@@ -6,6 +6,7 @@ namespace Negocio
 {
     public class ArticuloNegocio
     {
+        
         public List<Articulo> listar()
         {
             List<Articulo> lista = new List<Articulo>();
@@ -13,7 +14,8 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT A.Id, Codigo, Nombre, A.Descripcion, Precio, C.Descripcion Categoria, M.Descripcion Marca, A.IdCategoria, A.IdMarca, I.Id AS IdImagen, I.ImagenUrl FROM ARTICULOS AS A INNER JOIN CATEGORIAS AS C ON C.Id = A.IdCategoria INNER JOIN MARCAS AS M ON M.Id = A.IdMarca LEFT JOIN IMAGENES AS I ON A.Id = I.IdArticulo");
+               
+                datos.setearConsulta("SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, A.Precio, M.Descripcion AS Marca, C.Descripcion AS Categoria FROM ARTICULOS A INNER JOIN MARCAS M ON A.IdMarca = M.Id INNER JOIN CATEGORIAS C ON A.IdCategoria = C.Id");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -35,16 +37,7 @@ namespace Negocio
                     aux.Marca.Id = (int)datos.Lector["IdMarca"];
                     aux.Marca.Descripcion = (string)datos.Lector["Marca"];
 
-                    if (!(datos.Lector.IsDBNull(datos.Lector.GetOrdinal("ImagenUrl"))))
-                    {
-                        Imagen img = new Imagen
-                        {
-                            ImagenUrl = (string)datos.Lector["ImagenUrl"]
-                        };
-                        aux.Imagenes.Add(img);
-                    }
                     
-
                     lista.Add(aux);
                 }
 
@@ -59,21 +52,22 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
+        
         public void agregar(Articulo nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
+            Imagen imagen = new Imagen();
 
             try
             {
                 datos.setearConsulta("INSERT into ARTICULOS (Codigo, Nombre, Descripcion,IdCategoria,IdMarca,Precio)values(@Codigo, @Nombre, @Descripcion,@IdCategoria,@IdMarca,@Precio)");
                 datos.setearParametro("@Codigo", nuevo.Codigo);
                 datos.setearParametro("@Nombre", nuevo.Nombre);
-                datos.setearParametro("@Descripcion", nuevo.Descripcion);
+                datos.setearParametro("@Descripcion", nuevo.Descripcion);                
                 datos.setearParametro("@IdCategoria", nuevo.Categoria.Id);
                 datos.setearParametro("@IdMarca", nuevo.Marca.Id);
                 datos.setearParametro("@Precio", nuevo.Precio);
-
+                
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -85,7 +79,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
+       
         public void modificar(Articulo nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -111,7 +105,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
 
         public void eliminarFisico(int id)
         {
@@ -144,7 +137,7 @@ namespace Negocio
             try
             {
 
-                string consulta = "SELECT A.Id, Codigo, Nombre, A.Descripcion, Precio, C.Descripcion Categoria, M.Descripcion Marca, A.IdCategoria, A.IdMarca, I.Id AS IdImagen, I.ImagenUrl FROM ARTICULOS AS A INNER JOIN CATEGORIAS AS C ON C.Id = A.IdCategoria INNER JOIN MARCAS AS M ON M.Id = A.IdMarca LEFT JOIN IMAGENES AS I ON A.Id = I.IdArticulo";
+                string consulta = "SELECT A.Id, Codigo, Nombre, A.Descripcion, Precio, C.Descripcion Categoria, M.Descripcion Marca, A.IdCategoria, A.IdMarca, I.Id AS IdImagen, I.ImagenUrl, M.Id, C.Id FROM ARTICULOS AS A INNER JOIN CATEGORIAS AS C ON C.Id = A.IdCategoria INNER JOIN MARCAS AS M ON M.Id = A.IdMarca LEFT JOIN IMAGENES AS I ON A.Id = I.IdArticulo";
                     
                 
                 if (campo == "Precio")
@@ -264,16 +257,9 @@ namespace Negocio
                     aux.Categoria = new Categoria();
                     aux.Categoria.Id = (int)datos.Lector["IdCategoria"];
                     aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
-
                     aux.Marca = new Marca();
                     aux.Marca.Id = (int)datos.Lector["IdMarca"];
-                    aux.Marca.Descripcion = (string)datos.Lector["Marca"];
-
-                    if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("ImagenUrl")))
-                    {
-                        Imagen img = new Imagen { ImagenUrl = (string)datos.Lector["ImagenUrl"] };
-                        aux.Imagenes.Add(img);
-                    }
+                    aux.Marca.Descripcion = (string)datos.Lector["Marca"];                   
 
                     lista.Add(aux);
                 }
