@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using dominio;
 
 namespace Negocio
@@ -8,90 +9,158 @@ namespace Negocio
     {
         public List<Categoria> listar()
         {
-            List<Categoria> lista = new List<Categoria>();
-            AccesoDatos datos = new AccesoDatos();
+            var lista = new List<Categoria>();
+            var datos = new AccesoDatos();
+
             try
             {
-                datos.setearConsulta("select Id, Descripcion from CATEGORIAS");
+                datos.setearConsulta("SELECT Id, Descripcion FROM CATEGORIAS");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Categoria aux = new Categoria();
-                    aux.Id = (int)datos.Lector["Id"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    var aux = new Categoria
+                    {
+                        Id = (int)datos.Lector["Id"],
+                        Descripcion = (string)datos.Lector["Descripcion"]
+                    };
                     lista.Add(aux);
                 }
 
                 return lista;
             }
-            catch (Exception ex) { throw ex; }
-            finally { datos.cerrarConexion(); }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error listando categorías.", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
         public void agregar(Categoria nuevo)
         {
-            AccesoDatos datos = new AccesoDatos();
+            var datos = new AccesoDatos();
             try
             {
                 datos.setearConsulta("INSERT INTO CATEGORIAS (Descripcion) VALUES (@Descripcion)");
                 datos.setearParametro("@Descripcion", nuevo.Descripcion);
                 datos.ejecutarAccion();
             }
-            catch (Exception ex) { throw ex; }
-            finally { datos.cerrarConexion(); }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al agregar la categoría.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error inesperado al agregar la categoría.", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
         public void modificar(Categoria nuevo)
         {
-            AccesoDatos datos = new AccesoDatos();
+            var datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("UPDATE CATEGORIAS SET Descripcion = @Descripcion WHERE Id = @id");
+                datos.setearConsulta("UPDATE CATEGORIAS SET Descripcion = @Descripcion WHERE Id = @Id");
                 datos.setearParametro("@Descripcion", nuevo.Descripcion);
-                datos.setearParametro("@id", nuevo.Id);
+                datos.setearParametro("@Id", nuevo.Id);
                 datos.ejecutarAccion();
             }
-            catch (Exception ex) { throw ex; }
-            finally { datos.cerrarConexion(); }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al modificar la categoría.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error inesperado al modificar la categoría.", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
 
-       
-        public void eliminarFisico(int id)
+        // --- Chequeo previo (sin tocar la BD): ¿hay artículos que usan esta categoría? ---
+        private bool TieneArticulosAsociados(int idCategoria)
         {
-            
-            int cantidad = 0;
-            AccesoDatos verifica = new AccesoDatos();
+            var datos = new AccesoDatos();
             try
             {
-                verifica.setearConsulta("SELECT COUNT(*) FROM ARTICULOS WHERE IdCategoria = @id");
-                verifica.setearParametro("@id", id);
-                verifica.ejecutarLectura();
-                if (verifica.Lector.Read())
-                    cantidad = verifica.Lector.GetInt32(0);
+                // Si tu tabla ARTICULOS NO tiene la columna 'Eliminado', quitá "AND (Eliminado = 0 OR Eliminado IS NULL)".
+                datos.setearConsulta(
+                    "SELECT TOP 1 1 FROM ARTICULOS WHERE IdCategoria = @IdCategoria AND (Eliminado = 0 OR Eliminado IS NULL)"
+                );
+                datos.setearParametro("@IdCategoria", idCategoria);
+                datos.ejecutarLectura();
+                return datos.Lector.Read();
             }
-            catch (Exception ex) { throw ex; }
-            finally { verifica.cerrarConexion(); }
-
-            if (cantidad > 0)
-                throw new Exception("No se puede eliminar la categoría porque tiene artículos asociados.");
-
-            
-            AccesoDatos datos = new AccesoDatos();
-            try
+            finally
             {
-                datos.setearConsulta("DELETE FROM CATEGORIAS WHERE Id = @id");
-                datos.setearParametro("@id", id);
-                datos.ejecutarAccion();
+                datos.cerrarConexion();
             }
-            catch (Exception ex) { throw ex; }
-            finally { datos.cerrarConexion(); }
         }
 
-        
+        // --- Chequeo de existencia (para dar buen mensaje si ya no existe) ---
+        private bool ExisteCategoria(int id)
+        {
+            var datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT TOP 1 1 FROM CATEGORIAS WHERE Id = @Id");
+                datos.setearParametro("@Id", id);
+                datos.ejecutarLectura();
+                return datos.Lector.Read();
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
         public void eliminar(int id)
         {
-            eliminarFisico(id);
+            var datos = new AccesoDatos();
+            try
+            {
+                // 1) Reglas de negocio (sin tocar la estructura de la BD)
+                if (!ExisteCategoria(id))
+                    throw new BusinessRuleException("La categoría no existe o ya fue eliminada.");
+
+                if (TieneArticulosAsociados(id))
+                    throw new BusinessRuleException("No se puede eliminar la Categoría: tiene artículos asociados.");
+
+                // 2) Borrado físico
+                datos.setearConsulta("DELETE FROM CATEGORIAS WHERE Id = @Id");
+                datos.setearParametro("@Id", id);
+                datos.ejecutarAccion(); // ejecutarAccion() es void en tu AccesoDatos
+            }
+            catch (BusinessRuleException)
+            {
+                // Mensaje “amigable” para la UI
+                throw;
+            }
+            catch (SqlException ex) when (ex.Number == 547) // por si hay FK en la BD
+            {
+                throw new BusinessRuleException("No se puede eliminar la Categoría: tiene artículos asociados.");
+            }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al eliminar la categoría.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error inesperado al eliminar la categoría.", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
     }
 }

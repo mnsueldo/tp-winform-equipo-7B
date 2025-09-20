@@ -10,3 +10,9 @@ C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programa
 C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\dominio\obj\Debug\dominio.csproj.CoreCompileInputs.cache
 C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\dominio\obj\Debug\dominio.dll
 C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\dominio\obj\Debug\dominio.pdb
+D:\TP2\dominio\bin\Debug\dominio.dll
+D:\TP2\dominio\bin\Debug\dominio.pdb
+D:\TP2\dominio\obj\Debug\dominio.csproj.AssemblyReference.cache
+D:\TP2\dominio\obj\Debug\dominio.csproj.CoreCompileInputs.cache
+D:\TP2\dominio\obj\Debug\dominio.dll
+D:\TP2\dominio\obj\Debug\dominio.pdb

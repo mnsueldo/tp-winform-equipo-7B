@@ -61,30 +61,39 @@ namespace TP2
 
         private void btnEliminarMarca_Click(object sender, EventArgs e)
         {
+            if (dgvMarcas.CurrentRow == null)
+                return;
+
+            var seleccionado = (Marca)dgvMarcas.CurrentRow.DataBoundItem;
+
+            var resp = MessageBox.Show(
+                $"¿Eliminar la marca '{seleccionado.Descripcion}'?",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (resp != DialogResult.Yes)
+                return;
+
             try
             {
-                if (dgvMarcas.CurrentRow == null)
-                    return;
+                var negocio = new MarcaNegocio();
+                negocio.eliminar(seleccionado.Id);
 
-                Marca seleccionado = (Marca)dgvMarcas.CurrentRow.DataBoundItem;
-
-                var resp = MessageBox.Show(
-                    "¿Eliminar físicamente la marca seleccionada?",
-                    "Confirmar eliminación",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning
-                );
-
-                if (resp == DialogResult.Yes)
-                {
-                    MarcaNegocio negocio = new MarcaNegocio();
-                    negocio.eliminar(seleccionado.Id);
-                    cargar();
-                }
+                cargar(); // refrescar grilla
+                MessageBox.Show("Marca eliminada.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (Exception ex)
+            catch (BusinessRuleException brex)
             {
-                MessageBox.Show(ex.ToString());
+                // Mensaje amigable cuando hay artículos asociados
+                MessageBox.Show(brex.Message, "No permitido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception)
+            {
+                // Mensaje genérico entendible (sin stack trace)
+                MessageBox.Show("Ocurrió un error al eliminar la marca. Intentá nuevamente o contactá al administrador.",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

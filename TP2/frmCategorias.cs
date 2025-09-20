@@ -71,7 +71,7 @@ namespace TP2
                 if (resp == DialogResult.Yes)
                 {
                     CategoriaNegocio negocio = new CategoriaNegocio();
-                    negocio.eliminarFisico(seleccionada.Id);
+                    negocio.eliminar(seleccionada.Id);
                     cargar();
                 }
             }

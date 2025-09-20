@@ -40,3 +40,24 @@ C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programa
 C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\TP2\obj\Debug\TP2.csproj.Up2Date
 C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\TP2\obj\Debug\TP2.exe
 C:\Users\Casa\Desktop\UTN\3re cuatrimestre\Programacion III\Repositorio\Programacion-III\tp-winform-equipo-7B\TP2\obj\Debug\TP2.pdb
+D:\TP2\TP2\bin\Debug\TP2.exe.config
+D:\TP2\TP2\bin\Debug\TP2.exe
+D:\TP2\TP2\bin\Debug\TP2.pdb
+D:\TP2\TP2\bin\Debug\AccesoDatos.dll
+D:\TP2\TP2\bin\Debug\dominio.dll
+D:\TP2\TP2\bin\Debug\AccesoDatos.pdb
+D:\TP2\TP2\bin\Debug\dominio.pdb
+D:\TP2\TP2\obj\Debug\TP2.csproj.AssemblyReference.cache
+D:\TP2\TP2\obj\Debug\TP2.exe.config
+D:\TP2\TP2\obj\Debug\TP2.frmAgregarArticulo.resources
+D:\TP2\TP2\obj\Debug\TP2.frmAgregarCategoria.resources
+D:\TP2\TP2\obj\Debug\TP2.frmAgregarMarca.resources
+D:\TP2\TP2\obj\Debug\TP2.frmArticulos.resources
+D:\TP2\TP2\obj\Debug\TP2.frmCategorias.resources
+D:\TP2\TP2\obj\Debug\TP2.frmMarcas.resources
+D:\TP2\TP2\obj\Debug\TP2.Properties.Resources.resources
+D:\TP2\TP2\obj\Debug\TP2.csproj.GenerateResource.cache
+D:\TP2\TP2\obj\Debug\TP2.csproj.CoreCompileInputs.cache
+D:\TP2\TP2\obj\Debug\TP2.csproj.Up2Date
+D:\TP2\TP2\obj\Debug\TP2.exe
+D:\TP2\TP2\obj\Debug\TP2.pdb
