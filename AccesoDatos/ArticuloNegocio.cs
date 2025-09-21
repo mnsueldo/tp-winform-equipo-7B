@@ -7,38 +7,49 @@ namespace Negocio
 {
     public class ArticuloNegocio
     {
-        
         public List<Articulo> listar()
         {
-            List<Articulo> lista = new List<Articulo>();
-            AccesoDatos datos = new AccesoDatos();
+            var lista = new List<Articulo>();
+            var datos = new AccesoDatos();
 
             try
             {
-               
-                datos.setearConsulta("SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.IdMarca, A.IdCategoria, A.Precio, M.Descripcion AS Marca, C.Descripcion AS Categoria FROM ARTICULOS A INNER JOIN MARCAS M ON A.IdMarca = M.Id INNER JOIN CATEGORIAS C ON A.IdCategoria = C.Id");
+                datos.setearConsulta(@"
+SELECT  A.Id, A.Codigo, A.Nombre, A.Descripcion, 
+        A.IdMarca, A.IdCategoria, A.Precio,
+        M.Descripcion AS Marca,
+        C.Descripcion AS Categoria
+FROM ARTICULOS A
+INNER JOIN MARCAS M     ON A.IdMarca = M.Id
+INNER JOIN CATEGORIAS C ON A.IdCategoria = C.Id
+");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Articulo aux = new Articulo();
-                    aux.Id = (int)datos.Lector["Id"];
-                    aux.Codigo = (string)datos.Lector["Codigo"];
-                    aux.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    var aux = new Articulo
+                    {
+                        Id = (int)datos.Lector["Id"],
+                        Codigo = (string)datos.Lector["Codigo"],
+                        Nombre = (string)datos.Lector["Nombre"],
+                        Descripcion = (string)datos.Lector["Descripcion"],
+                        Marca = new Marca
+                        {
+                            Id = (int)datos.Lector["IdMarca"],
+                            Descripcion = (string)datos.Lector["Marca"]
+                        },
+                        Categoria = new Categoria
+                        {
+                            Id = (int)datos.Lector["IdCategoria"],
+                            Descripcion = (string)datos.Lector["Categoria"]
+                        }
+                    };
 
-                    if (!(datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Precio"))))
+                    if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Precio")))
                         aux.Precio = (decimal)datos.Lector["Precio"];
 
-                    aux.Categoria = new Categoria();
-                    aux.Categoria.Id = (int)datos.Lector["IdCategoria"];
-                    aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
-
-                    aux.Marca = new Marca();
-                    aux.Marca.Id = (int)datos.Lector["IdMarca"];
-                    aux.Marca.Descripcion = (string)datos.Lector["Marca"];
-
-                    aux.UrlImagen = ObtenerPrimeraImagenValida(aux.Id);                    
+                    // Carga de imágenes (si existen)
+                    aux.UrlImagen = ObtenerPrimeraImagenValida(aux.Id);
                     aux.Imagenes = ObtenerImagenesPorId(aux.Id);
 
                     lista.Add(aux);
@@ -46,65 +57,92 @@ namespace Negocio
 
                 return lista;
             }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al listar artículos.", ex);
+            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ApplicationException("Error inesperado al listar artículos.", ex);
             }
             finally
             {
                 datos.cerrarConexion();
             }
         }
-        
+
         public int agregar(Articulo nuevo)
         {
-            AccesoDatos datos = new AccesoDatos();
-            Imagen imagen = new Imagen();
+            var datos = new AccesoDatos();
             int idGenerado = 0;
 
             try
             {
-                datos.setearConsulta("INSERT into ARTICULOS (Codigo, Nombre, Descripcion,IdCategoria,IdMarca,Precio) OUTPUT INSERTED.Id values(@Codigo, @Nombre, @Descripcion,@IdCategoria,@IdMarca,@Precio)");
-                datos.setearParametro("@Codigo", nuevo.Codigo);
-                datos.setearParametro("@Nombre", nuevo.Nombre);
-                datos.setearParametro("@Descripcion", nuevo.Descripcion);                
-                datos.setearParametro("@IdCategoria", nuevo.Categoria.Id);
-                datos.setearParametro("@IdMarca", nuevo.Marca.Id);
-                datos.setearParametro("@Precio", nuevo.Precio);
-                
-                datos.ejecutarExcalar(idGenerado);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-
-            return idGenerado;
-        }
-       
-        public void modificar(Articulo nuevo)
-        {
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.setearConsulta("update ARTICULOS set Codigo = @codigo, Nombre = @nombre, Descripcion = @descripcion, IdCategoria = @idCategoria, IdMarca = @idMarca, Precio = @precio Where Id = @id");
+                // Obtenemos el Id con OUTPUT INSERTED.Id y lo leemos con ejecutarLectura()
+                datos.setearConsulta(@"
+INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, IdCategoria, IdMarca, Precio)
+OUTPUT INSERTED.Id
+VALUES (@Codigo, @Nombre, @Descripcion, @IdCategoria, @IdMarca, @Precio);
+");
                 datos.setearParametro("@Codigo", nuevo.Codigo);
                 datos.setearParametro("@Nombre", nuevo.Nombre);
                 datos.setearParametro("@Descripcion", nuevo.Descripcion);
                 datos.setearParametro("@IdCategoria", nuevo.Categoria.Id);
                 datos.setearParametro("@IdMarca", nuevo.Marca.Id);
                 datos.setearParametro("@Precio", nuevo.Precio);
-                datos.setearParametro("@id", nuevo.Id);
 
-                datos.ejecutarAccion();
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                    idGenerado = Convert.ToInt32(datos.Lector[0]);
+
+                return idGenerado;
+            }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al agregar el artículo.", ex);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ApplicationException("Error inesperado al agregar el artículo.", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void modificar(Articulo nuevo)
+        {
+            var datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta(@"
+UPDATE ARTICULOS
+SET Codigo = @Codigo,
+    Nombre = @Nombre,
+    Descripcion = @Descripcion,
+    IdCategoria = @IdCategoria,
+    IdMarca = @IdMarca,
+    Precio = @Precio
+WHERE Id = @Id;
+");
+                datos.setearParametro("@Codigo", nuevo.Codigo);
+                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearParametro("@Descripcion", nuevo.Descripcion);
+                datos.setearParametro("@IdCategoria", nuevo.Categoria.Id);
+                datos.setearParametro("@IdMarca", nuevo.Marca.Id);
+                datos.setearParametro("@Precio", nuevo.Precio);
+                datos.setearParametro("@Id", nuevo.Id);
+
+                datos.ejecutarAccion();
+            }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al modificar el artículo.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error inesperado al modificar el artículo.", ex);
             }
             finally
             {
@@ -114,20 +152,24 @@ namespace Negocio
 
         public void eliminarFisico(int id)
         {
-            AccesoDatos datos = new AccesoDatos();
+            var datos = new AccesoDatos();
             try
             {
-
-                datos.setearConsulta(
-                    "DELETE FROM IMAGENES WHERE IdArticulo = @id; " +
-                    "DELETE FROM ARTICULOS WHERE Id = @id;"
-                );
-                datos.setearParametro("@id", id);
+                // Borramos primero imágenes relacionadas y luego el artículo
+                datos.setearConsulta(@"
+DELETE FROM IMAGENES WHERE IdArticulo = @Id;
+DELETE FROM ARTICULOS WHERE Id = @Id;
+");
+                datos.setearParametro("@Id", id);
                 datos.ejecutarAccion();
+            }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al eliminar el artículo.", ex);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ApplicationException("Error inesperado al eliminar el artículo.", ex);
             }
             finally
             {
@@ -137,37 +179,43 @@ namespace Negocio
 
         public List<Articulo> filtrar(string campo, string criterio, string filtro)
         {
-            List<Articulo> lista = new List<Articulo>();
-            AccesoDatos datos = new AccesoDatos();
+            var lista = new List<Articulo>();
+            var datos = new AccesoDatos();
 
             try
             {
+                // WHERE 1=1 para poder concatenar ANDs
+                string consulta = @"
+SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.Precio,
+       C.Descripcion AS Categoria, M.Descripcion AS Marca,
+       A.IdCategoria, A.IdMarca
+FROM ARTICULOS AS A
+INNER JOIN CATEGORIAS AS C ON C.Id = A.IdCategoria
+INNER JOIN MARCAS     AS M ON M.Id = A.IdMarca
+LEFT JOIN  IMAGENES   AS I ON A.Id = I.IdArticulo
+WHERE 1=1 ";
 
-                string consulta = "SELECT A.Id, Codigo, Nombre, A.Descripcion, Precio, C.Descripcion Categoria, M.Descripcion Marca, A.IdCategoria, A.IdMarca, I.Id AS IdImagen, I.ImagenUrl, M.Id, C.Id FROM ARTICULOS AS A INNER JOIN CATEGORIAS AS C ON C.Id = A.IdCategoria INNER JOIN MARCAS AS M ON M.Id = A.IdMarca LEFT JOIN IMAGENES AS I ON A.Id = I.IdArticulo";
-                    
-                
                 if (campo == "Precio")
                 {
-                    
                     switch (criterio)
                     {
                         case "Mayor a":
-                            consulta += "AND Precio > @filtroPrecio ";
+                            consulta += "AND A.Precio > @filtroPrecio ";
                             datos.setearParametro("@filtroPrecio", Convert.ToDecimal(filtro));
                             break;
                         case "Menor a":
-                            consulta += "AND Precio < @filtroPrecio ";
+                            consulta += "AND A.Precio < @filtroPrecio ";
                             datos.setearParametro("@filtroPrecio", Convert.ToDecimal(filtro));
                             break;
                         default: // "Igual a"
-                            consulta += "AND Precio = @filtroPrecio ";
+                            consulta += "AND A.Precio = @filtroPrecio ";
                             datos.setearParametro("@filtroPrecio", Convert.ToDecimal(filtro));
                             break;
                     }
                 }
                 else if (campo == "Nombre")
                 {
-                    consulta += "AND Nombre LIKE @filtro ";
+                    consulta += "AND A.Nombre LIKE @filtro ";
                     switch (criterio)
                     {
                         case "Comienza con":
@@ -176,7 +224,7 @@ namespace Negocio
                         case "Termina con":
                             datos.setearParametro("@filtro", "%" + filtro);
                             break;
-                        default: 
+                        default:
                             datos.setearParametro("@filtro", "%" + filtro + "%");
                             break;
                     }
@@ -231,7 +279,7 @@ namespace Negocio
                 }
                 else if (campo == "Codigo" || campo == "Código")
                 {
-                    consulta += "AND Codigo LIKE @filtro ";
+                    consulta += "AND A.Codigo LIKE @filtro ";
                     switch (criterio)
                     {
                         case "Comienza con":
@@ -245,36 +293,45 @@ namespace Negocio
                             break;
                     }
                 }
-                
+
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Articulo aux = new Articulo();
-                    aux.Id = (int)datos.Lector["Id"];
-                    aux.Codigo = (string)datos.Lector["Codigo"];
-                    aux.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    var aux = new Articulo
+                    {
+                        Id = (int)datos.Lector["Id"],
+                        Codigo = (string)datos.Lector["Codigo"],
+                        Nombre = (string)datos.Lector["Nombre"],
+                        Descripcion = (string)datos.Lector["Descripcion"],
+                        Marca = new Marca
+                        {
+                            Id = (int)datos.Lector["IdMarca"],
+                            Descripcion = (string)datos.Lector["Marca"]
+                        },
+                        Categoria = new Categoria
+                        {
+                            Id = (int)datos.Lector["IdCategoria"],
+                            Descripcion = (string)datos.Lector["Categoria"]
+                        }
+                    };
 
                     if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Precio")))
                         aux.Precio = (decimal)datos.Lector["Precio"];
 
-                    aux.Categoria = new Categoria();
-                    aux.Categoria.Id = (int)datos.Lector["IdCategoria"];
-                    aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
-                    aux.Marca = new Marca();
-                    aux.Marca.Id = (int)datos.Lector["IdMarca"];
-                    aux.Marca.Descripcion = (string)datos.Lector["Marca"];                   
-
                     lista.Add(aux);
                 }
 
-                return lista; 
+                return lista;
+            }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al filtrar artículos.", ex);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ApplicationException("Error inesperado al filtrar artículos.", ex);
             }
             finally
             {
@@ -284,34 +341,60 @@ namespace Negocio
 
         public string ObtenerPrimeraImagenValida(int idArticulo)
         {
-            
-            AccesoDatos datos = new AccesoDatos();
+            var datos = new AccesoDatos();
+            try
             {
                 datos.setearConsulta("SELECT TOP 1 ImagenUrl FROM IMAGENES WHERE IdArticulo = @idArticulo");
-                
                 datos.setearParametro("@idArticulo", idArticulo);
                 datos.ejecutarLectura();
+
                 if (datos.Lector.Read())
-                {
                     return (string)datos.Lector["ImagenUrl"];
-                }
+
+                return null;
             }
-            return null;
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al obtener la imagen del artículo.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error inesperado al obtener la imagen del artículo.", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
+
         public List<string> ObtenerImagenesPorId(int idArticulo)
         {
             var imagenes = new List<string>();
-            AccesoDatos datos = new AccesoDatos();
+            var datos = new AccesoDatos();
+            try
             {
                 datos.setearConsulta("SELECT ImagenUrl FROM IMAGENES WHERE IdArticulo = @idArticulo");
-                
                 datos.setearParametro("@idArticulo", idArticulo);
                 datos.ejecutarLectura();
+
                 while (datos.Lector.Read())
                 {
                     imagenes.Add((string)datos.Lector["ImagenUrl"]);
                 }
-            return imagenes;
+
+                return imagenes;
+            }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al listar imágenes del artículo.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error inesperado al listar imágenes del artículo.", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
             }
         }
 
@@ -319,73 +402,55 @@ namespace Negocio
         {
             try
             {
-                // Se crea una solicitud HTTP para la URL indicada.
-                // WebRequest.Create genera un objeto que permite interactuar con el recurso remoto.
                 var request = System.Net.WebRequest.Create(url);
-
-                // Se especifica el método HTTP a usar, en este caso GET, que es el estándar para obtener recursos.
                 request.Method = "GET";
-
-                // Se establece un tiempo máximo de espera (timeout) de 3 segundos para evitar que la aplicación se bloquee si la URL no responde.
-                request.Timeout = 3000; // 3 segundos
-
-                // Se envía la solicitud y se obtiene la respuesta del servidor.
-                // Si la URL es válida y el recurso está disponible, se recibe una respuesta.
+                request.Timeout = 3000; // 3s
                 using (var response = request.GetResponse())
                 {
-                    // Se verifica el código de estado HTTP de la respuesta.
-                    // Si el código es OK (200), significa que la imagen existe y es accesible.
-                    return ((System.Net.HttpWebResponse)response).StatusCode == System.Net.HttpStatusCode.OK;
+                    return ((System.Net.HttpWebResponse)response).StatusCode
+                           == System.Net.HttpStatusCode.OK;
                 }
             }
             catch
             {
-                // Si ocurre cualquier excepción (por ejemplo, la URL no existe, no hay conexión, o el recurso no está disponible),
-                // el método retorna false indicando que la imagen no es válida o no se pudo acceder.
                 return false;
             }
-            // este metodo lo saque de https://stackoverflow.com/questions/11082804/detecting-image-url-in-c-net por si lo tengo que volver a buscar
         }
 
         public void guardarImagenes(int idArticulo, List<string> imagenes)
         {
-            AccesoDatos datos = new AccesoDatos();
+            var datos = new AccesoDatos();
+            try
             {
-                try
+                if (imagenes == null)
+                    return;
+
+                // Borrar existentes
+                datos.setearConsulta("DELETE FROM IMAGENES WHERE IdArticulo = @idArticulo");
+                datos.setearParametro("@idArticulo", idArticulo);
+                datos.ejecutarAccion();
+
+                // Insertar nuevas
+                foreach (var url in imagenes)
                 {
-                    if (imagenes == null)
-                    return;           
-                       
-                    datos.setearConsulta("DELETE FROM IMAGENES WHERE IdArticulo = @idArticulo");
+                    datos.setearConsulta("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@idArticulo, @url)");
                     datos.setearParametro("@idArticulo", idArticulo);
+                    datos.setearParametro("@url", url);
                     datos.ejecutarAccion();
-
-
-                    foreach (var url in imagenes)
-                    {
-                        datos.setearConsulta("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@idArticulo, @url)");
-                        datos.setearParametro("@idArticulo", idArticulo);
-                        datos.setearParametro("@url", url);
-                        datos.ejecutarAccion(); 
-                    }
-
-                    }
-                catch (Exception ex)
-                {
-
-                    throw ex;
                 }
-                finally
-                {
-                    datos.cerrarConexion();
-                }
-                
+            }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al guardar imágenes del artículo.", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error inesperado al guardar imágenes del artículo.", ex);
+            }
+            finally
+            {
+                datos.cerrarConexion();
             }
         }
-        
-
-
     }
 }
-  
-

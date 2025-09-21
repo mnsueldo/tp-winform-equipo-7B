@@ -3,28 +3,36 @@
   "WorkspaceRootPath": "D:\\TP2\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|d:\\tp2\\tp2\\frmcategorias.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|d:\\tp2\\tp2\\frmagregarmarca.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|solutionrelative:tp2\\frmagregarmarca.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|D:\\TP2\\accesodatos\\articulonegocio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|solutionrelative:accesodatos\\articulonegocio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|D:\\TP2\\accesodatos\\accesodatos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|solutionrelative:accesodatos\\accesodatos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|D:\\TP2\\tp2\\frmcategorias.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|solutionrelative:tp2\\frmcategorias.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|d:\\tp2\\accesodatos\\categorianegocio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|D:\\TP2\\accesodatos\\categorianegocio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|solutionrelative:accesodatos\\categorianegocio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|d:\\tp2\\tp2\\frmmarcas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|D:\\TP2\\tp2\\frmmarcas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|solutionrelative:tp2\\frmmarcas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|d:\\tp2\\accesodatos\\marcanegocio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|D:\\TP2\\accesodatos\\marcanegocio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|solutionrelative:accesodatos\\marcanegocio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|d:\\tp2\\accesodatos\\exceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|D:\\TP2\\accesodatos\\exceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|solutionrelative:accesodatos\\exceptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|d:\\tp2\\accesodatos\\accesodatos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|solutionrelative:accesodatos\\accesodatos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|D:\\TP2\\tp2\\frmagregararticulo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -33,10 +41,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|D:\\TP2\\tp2\\frmarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{18A043EB-E90E-46B5-9A8C-69FF753D0981}|TP2\\TP2.csproj|solutionrelative:tp2\\frmarticulos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|D:\\TP2\\accesodatos\\articulonegocio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5BE3F8A8-692C-400C-9E92-F9C20E8C7FE0}|AccesoDatos\\Negocio.csproj|solutionrelative:accesodatos\\articulonegocio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,60 +50,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "frmCategorias.cs",
-              "DocumentMoniker": "D:\\TP2\\TP2\\frmCategorias.cs",
-              "RelativeDocumentMoniker": "TP2\\frmCategorias.cs",
-              "ToolTip": "D:\\TP2\\TP2\\frmCategorias.cs",
-              "RelativeToolTip": "TP2\\frmCategorias.cs",
-              "ViewState": "AgIAADoAAAAAAAAAAAAkwEkAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T22:47:44.649Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "frmMarcas.cs",
-              "DocumentMoniker": "D:\\TP2\\TP2\\frmMarcas.cs",
-              "RelativeDocumentMoniker": "TP2\\frmMarcas.cs",
-              "ToolTip": "D:\\TP2\\TP2\\frmMarcas.cs",
-              "RelativeToolTip": "TP2\\frmMarcas.cs",
-              "ViewState": "AgIAAEwAAAAAAAAAAAAowGEAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T22:43:42.524Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CategoriaNegocio.cs",
-              "DocumentMoniker": "D:\\TP2\\AccesoDatos\\CategoriaNegocio.cs",
-              "RelativeDocumentMoniker": "AccesoDatos\\CategoriaNegocio.cs",
-              "ToolTip": "D:\\TP2\\AccesoDatos\\CategoriaNegocio.cs",
-              "RelativeToolTip": "AccesoDatos\\CategoriaNegocio.cs",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAIwKYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T22:42:25.425Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MarcaNegocio.cs",
-              "DocumentMoniker": "D:\\TP2\\AccesoDatos\\MarcaNegocio.cs",
-              "RelativeDocumentMoniker": "AccesoDatos\\MarcaNegocio.cs",
-              "ToolTip": "D:\\TP2\\AccesoDatos\\MarcaNegocio.cs",
-              "RelativeToolTip": "AccesoDatos\\MarcaNegocio.cs",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAkwJIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T22:41:15.098Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
@@ -110,7 +62,68 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "frmAgregarMarca.cs",
+              "DocumentMoniker": "D:\\TP2\\TP2\\frmAgregarMarca.cs",
+              "RelativeDocumentMoniker": "TP2\\frmAgregarMarca.cs",
+              "ToolTip": "D:\\TP2\\TP2\\frmAgregarMarca.cs",
+              "RelativeToolTip": "TP2\\frmAgregarMarca.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAmwGUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-21T23:26:39.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "frmCategorias.cs",
+              "DocumentMoniker": "D:\\TP2\\TP2\\frmCategorias.cs",
+              "RelativeDocumentMoniker": "TP2\\frmCategorias.cs",
+              "ToolTip": "D:\\TP2\\TP2\\frmCategorias.cs",
+              "RelativeToolTip": "TP2\\frmCategorias.cs",
+              "ViewState": "AgIAADoAAAAAAAAAAAAkwEkAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T22:47:44.649Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "frmMarcas.cs",
+              "DocumentMoniker": "D:\\TP2\\TP2\\frmMarcas.cs",
+              "RelativeDocumentMoniker": "TP2\\frmMarcas.cs",
+              "ToolTip": "D:\\TP2\\TP2\\frmMarcas.cs",
+              "RelativeToolTip": "TP2\\frmMarcas.cs",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAowGEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T22:43:42.524Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "CategoriaNegocio.cs",
+              "DocumentMoniker": "D:\\TP2\\AccesoDatos\\CategoriaNegocio.cs",
+              "RelativeDocumentMoniker": "AccesoDatos\\CategoriaNegocio.cs",
+              "ToolTip": "D:\\TP2\\AccesoDatos\\CategoriaNegocio.cs",
+              "RelativeToolTip": "AccesoDatos\\CategoriaNegocio.cs",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAIwKYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T22:42:25.425Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MarcaNegocio.cs",
+              "DocumentMoniker": "D:\\TP2\\AccesoDatos\\MarcaNegocio.cs",
+              "RelativeDocumentMoniker": "AccesoDatos\\MarcaNegocio.cs",
+              "ToolTip": "D:\\TP2\\AccesoDatos\\MarcaNegocio.cs",
+              "RelativeToolTip": "AccesoDatos\\MarcaNegocio.cs",
+              "ViewState": "AgIAAH8AAAAAAAAAAAAkwJIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-20T22:41:15.098Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Exceptions.cs",
               "DocumentMoniker": "D:\\TP2\\AccesoDatos\\Exceptions.cs",
               "RelativeDocumentMoniker": "AccesoDatos\\Exceptions.cs",
@@ -118,37 +131,35 @@
               "RelativeToolTip": "AccesoDatos\\Exceptions.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T22:40:09.003Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T22:40:09.003Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "AccesoDatos.cs",
               "DocumentMoniker": "D:\\TP2\\AccesoDatos\\AccesoDatos.cs",
               "RelativeDocumentMoniker": "AccesoDatos\\AccesoDatos.cs",
               "ToolTip": "D:\\TP2\\AccesoDatos\\AccesoDatos.cs",
               "RelativeToolTip": "AccesoDatos\\AccesoDatos.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBcAAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAYwHIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-20T22:27:12.914Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-20T22:27:12.914Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 1,
               "Title": "ArticuloNegocio.cs",
               "DocumentMoniker": "D:\\TP2\\AccesoDatos\\ArticuloNegocio.cs",
               "RelativeDocumentMoniker": "AccesoDatos\\ArticuloNegocio.cs",
               "ToolTip": "D:\\TP2\\AccesoDatos\\ArticuloNegocio.cs",
               "RelativeToolTip": "AccesoDatos\\ArticuloNegocio.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAwFAAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAALYBAAAAAAAAAAAYwMgBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-19T23:22:20.83Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "frmArticulos.cs [Design]",
               "DocumentMoniker": "D:\\TP2\\TP2\\frmArticulos.cs",
               "RelativeDocumentMoniker": "TP2\\frmArticulos.cs",
@@ -158,7 +169,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "frmAgregarArticulo.cs [Dise\u00F1o]",
               "DocumentMoniker": "D:\\TP2\\TP2\\frmAgregarArticulo.cs",
               "RelativeDocumentMoniker": "TP2\\frmAgregarArticulo.cs",

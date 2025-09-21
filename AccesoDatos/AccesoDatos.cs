@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 using System.Data.SqlClient;
 using dominio;
 
@@ -13,22 +10,20 @@ namespace Negocio
         private SqlConnection conexion;
         private SqlCommand comando;
         private SqlDataReader lector;
-        public SqlDataReader Lector
-        {
-            get { return lector; }
-        }
+
+        public SqlDataReader Lector => lector;
 
         public AccesoDatos()
         {
-            
             conexion = new SqlConnection("server=localhost; database=CATALOGO_P3_DB; integrated security=true");
             comando = new SqlCommand();
         }
 
         public void setearConsulta(string consulta)
         {
-            comando.CommandType = System.Data.CommandType.Text;
+            comando.CommandType = CommandType.Text;
             comando.CommandText = consulta;
+            comando.Parameters.Clear(); // evita acumular parámetros entre llamadas
         }
 
         public void ejecutarLectura()
@@ -37,26 +32,43 @@ namespace Negocio
             try
             {
                 conexion.Open();
-                lector = comando.ExecuteReader();
+                lector = comando.ExecuteReader(); // la conexión queda abierta hasta cerrar Lector con cerrarConexion()
+            }
+            catch (SqlException ex)
+            {
+                if (conexion.State == ConnectionState.Open) conexion.Close();
+                throw new ApplicationException("Error de base al ejecutar la lectura.", ex);
             }
             catch (Exception ex)
             {
-                throw ex;
+                if (conexion.State == ConnectionState.Open) conexion.Close();
+                throw new ApplicationException("Error inesperado al ejecutar la lectura.", ex);
             }
         }
+
+        // Nota: el parámetro 'id' no se usa; se mantiene para no romper llamadas existentes.
         public void ejecutarExcalar(int id)
         {
             comando.Connection = conexion;
             try
             {
                 conexion.Open();
-                comando.ExecuteScalar();
+                var _ = comando.ExecuteScalar(); // si alguna llamada espera el valor, cambiar a retornar object/int
+            }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al ejecutar el escalar.", ex);
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ApplicationException("Error inesperado al ejecutar el escalar.", ex);
+            }
+            finally
+            {
+                if (conexion.State == ConnectionState.Open) conexion.Close();
             }
         }
+
         public void ejecutarAccion()
         {
             comando.Connection = conexion;
@@ -65,23 +77,38 @@ namespace Negocio
                 conexion.Open();
                 comando.ExecuteNonQuery();
             }
+            catch (SqlException ex)
+            {
+                throw new ApplicationException("Error de base al ejecutar la acción.", ex);
+            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new ApplicationException("Error inesperado al ejecutar la acción.", ex);
+            }
+            finally
+            {
+                if (conexion.State == ConnectionState.Open) conexion.Close();
             }
         }
 
         public void setearParametro(string nombre, object valor)
         {
-            comando.Parameters.AddWithValue(nombre, valor);
+            comando.Parameters.AddWithValue(nombre, valor ?? DBNull.Value);
         }
 
         public void cerrarConexion()
         {
-            if (lector != null)
-                lector.Close();
-            conexion.Close();
+            try
+            {
+                if (lector != null && !lector.IsClosed)
+                    lector.Close();
+            }
+            finally
+            {
+                if (conexion.State == ConnectionState.Open)
+                    conexion.Close();
+                comando.Parameters.Clear();
+            }
         }
-       
     }
 }
