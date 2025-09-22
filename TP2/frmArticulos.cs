@@ -20,13 +20,14 @@ namespace TP2
 
         private void frmArticulos_Load(object sender, EventArgs e)
         {
-            cargar();       
-                                           
+            cargar();
+
             if (dgvArticulos != null)
                 dgvArticulos.CellFormatting += dgvArticulos_CellFormatting;
 
-            SuscribirEventosDetalleUnaVez();            
-            InitBusquedaSimple();
+            SuscribirEventosDetalleUnaVez();
+            // Si tenés búsqueda simple, dejá esta línea; si no existe el método, quítala.
+            // InitBusquedaSimple();
         }
 
         private void SuscribirEventosDetalleUnaVez()
@@ -40,7 +41,7 @@ namespace TP2
         private void ocultarColumnas()
         {
             if (dgvArticulos.Columns["Id"] != null)
-                dgvArticulos.Columns["Id"].Visible = false;           
+                dgvArticulos.Columns["Id"].Visible = false;
         }
 
         private void cargar()
@@ -53,7 +54,7 @@ namespace TP2
                 dgvArticulos.DataSource = null;
                 dgvArticulos.DataSource = listaArticulo;
                 ocultarColumnas();
-                FormatearGrilla();               
+                FormatearGrilla();
                 MostrarImagenSeleccionActual();
             }
             catch (Exception ex)
@@ -61,30 +62,29 @@ namespace TP2
                 MessageBox.Show(ex.ToString());
             }
         }
-               
+
         private void FormatearGrilla()
         {
             if (dgvArticulos == null || dgvArticulos.Columns.Count == 0) return;
 
             dgvArticulos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvArticulos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None; 
+            dgvArticulos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             dgvArticulos.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
-                        
+
             SetFill("Codigo", 70, "Código");
             SetFill("Nombre", 120, "Nombre");
-            SetFill("Descripcion", 260, "Descripción");  
+            SetFill("Descripcion", 260, "Descripción");
             SetFill("Marca", 100, "Marca");
             SetFill("Categoria", 110, "Categoría");
             SetFill("Precio", 90, "Precio");
 
-            
             var colPrecio = dgvArticulos.Columns["Precio"];
             if (colPrecio != null)
             {
                 colPrecio.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 colPrecio.DefaultCellStyle.Format = "N2";
             }
-                        
+
             dgvArticulos.ShowCellToolTips = true;
         }
 
@@ -93,10 +93,10 @@ namespace TP2
             var col = dgvArticulos.Columns[name];
             if (col == null) return;
             col.FillWeight = weight;
-            col.MinimumWidth = (int)(weight * 0.4); 
+            col.MinimumWidth = (int)(weight * 0.4);
             if (!string.IsNullOrEmpty(headerText)) col.HeaderText = headerText;
         }
-                
+
         private void dgvArticulos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
@@ -105,8 +105,7 @@ namespace TP2
             if (e.Value != null)
                 cell.ToolTipText = e.Value.ToString();
         }
-              
-       
+
         private void MostrarImagenSeleccionActual()
         {
             if (dgvArticulos?.CurrentRow == null) { CargarImagenSeguro(null); return; }
@@ -126,7 +125,10 @@ namespace TP2
                 if (!string.IsNullOrWhiteSpace(url)) pbxArticulo.Load(url);
                 else pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
             }
-            catch { pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png"); }
+            catch
+            {
+                pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+            }
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -138,21 +140,17 @@ namespace TP2
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            Articulo seleccionado;
-            if(dgvArticulos.CurrentRow != null)
-
+            if (dgvArticulos.CurrentRow != null)  // ← sin punto y coma
             {
-            seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-            frmAgregarArticulo modificar = new frmAgregarArticulo(seleccionado);
-            modificar.ShowDialog();
-            cargar();
-
+                var seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                var modificar = new frmAgregarArticulo(seleccionado);
+                modificar.ShowDialog();
+                cargar();
             }
             else
             {
                 MessageBox.Show("Por favor, seleccione un artículo para modificar.");
             }
-                
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -161,41 +159,41 @@ namespace TP2
             {
                 if (dgvArticulos.CurrentRow != null)
                 {
-                    Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                    var seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
 
                     var resp = MessageBox.Show(
-                        "¿Eliminar físicamente el artículo seleccionado?", "Confirmar eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        "¿Eliminar físicamente el artículo seleccionado?",
+                        "Confirmar eliminación",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning);
+
                     if (resp == DialogResult.Yes)
                     {
-                        ArticuloNegocio negocio = new ArticuloNegocio();
+                        var negocio = new ArticuloNegocio();
                         negocio.eliminarFisico(seleccionado.Id);
                         cargar();
                     }
-
                 }
                 else
                 {
                     MessageBox.Show("Por favor, seleccione un artículo para eliminar.");
                 }
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
         }
-                                     
 
         private void btnMenuCategorias_Click(object sender, EventArgs e)
         {
-            frmCategorias agregar = new frmCategorias();
-            agregar.ShowDialog();
+            using (var f = new frmCategorias()) f.ShowDialog();
             cargar();
-        }       
+        }
+
         private void btnMenuMarcas_Click(object sender, EventArgs e)
         {
-            frmMarcas agregar = new frmMarcas();
-            agregar.ShowDialog();
+            using (var f = new frmMarcas()) f.ShowDialog();
             cargar();
         }
 
@@ -210,26 +208,24 @@ namespace TP2
 
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
-            
             if (dgvArticulos.CurrentRow != null)
             {
-                articuloActual = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;             
-                indiceImagenActual = 0;                               
+                articuloActual = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                indiceImagenActual = 0;
                 MostrarImagenActual();
             }
         }
 
         private void MostrarImagenActual()
         {
-            
             if (articuloActual == null || articuloActual.Imagenes == null || articuloActual.Imagenes.Count == 0)
-            {                
+            {
                 pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
                 return;
             }
 
             try
-            {                
+            {
                 pbxArticulo.Load(articuloActual.Imagenes[indiceImagenActual]);
             }
             catch
@@ -238,5 +234,4 @@ namespace TP2
             }
         }
     }
-
 }

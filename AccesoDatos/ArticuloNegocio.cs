@@ -21,7 +21,7 @@ SELECT  A.Id, A.Codigo, A.Nombre, A.Descripcion,
         C.Descripcion AS Categoria
 FROM ARTICULOS A
 INNER JOIN MARCAS M     ON A.IdMarca = M.Id
-INNER JOIN CATEGORIAS C ON A.IdCategoria = C.Id
+INNER JOIN CATEGORIAS C ON A.IdCategoria = C.Id;
 ");
                 datos.ejecutarLectura();
 
@@ -48,9 +48,9 @@ INNER JOIN CATEGORIAS C ON A.IdCategoria = C.Id
                     if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Precio")))
                         aux.Precio = (decimal)datos.Lector["Precio"];
 
-                    // Carga de imágenes (si existen)
-                    aux.UrlImagen = ObtenerPrimeraImagenValida(aux.Id);
+                    // Imágenes: una sola consulta y usamos la primera como principal
                     aux.Imagenes = ObtenerImagenesPorId(aux.Id);
+                    aux.UrlImagen = (aux.Imagenes != null && aux.Imagenes.Count > 0) ? aux.Imagenes[0] : null;
 
                     lista.Add(aux);
                 }
@@ -78,7 +78,6 @@ INNER JOIN CATEGORIAS C ON A.IdCategoria = C.Id
 
             try
             {
-                // Obtenemos el Id con OUTPUT INSERTED.Id y lo leemos con ejecutarLectura()
                 datos.setearConsulta(@"
 INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, IdCategoria, IdMarca, Precio)
 OUTPUT INSERTED.Id
@@ -184,7 +183,6 @@ DELETE FROM ARTICULOS WHERE Id = @Id;
 
             try
             {
-                // WHERE 1=1 para poder concatenar ANDs
                 string consulta = @"
 SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.Precio,
        C.Descripcion AS Categoria, M.Descripcion AS Marca,
@@ -207,7 +205,7 @@ WHERE 1=1 ";
                             consulta += "AND A.Precio < @filtroPrecio ";
                             datos.setearParametro("@filtroPrecio", Convert.ToDecimal(filtro));
                             break;
-                        default: // "Igual a"
+                        default:
                             consulta += "AND A.Precio = @filtroPrecio ";
                             datos.setearParametro("@filtroPrecio", Convert.ToDecimal(filtro));
                             break;
@@ -216,82 +214,37 @@ WHERE 1=1 ";
                 else if (campo == "Nombre")
                 {
                     consulta += "AND A.Nombre LIKE @filtro ";
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            datos.setearParametro("@filtro", filtro + "%");
-                            break;
-                        case "Termina con":
-                            datos.setearParametro("@filtro", "%" + filtro);
-                            break;
-                        default:
-                            datos.setearParametro("@filtro", "%" + filtro + "%");
-                            break;
-                    }
+                    datos.setearParametro("@filtro", criterio == "Comienza con" ? (filtro + "%")
+                                               : criterio == "Termina con" ? ("%" + filtro)
+                                                                             : ("%" + filtro + "%"));
                 }
                 else if (campo == "Descripcion" || campo == "Descripción")
                 {
                     consulta += "AND A.Descripcion LIKE @filtro ";
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            datos.setearParametro("@filtro", filtro + "%");
-                            break;
-                        case "Termina con":
-                            datos.setearParametro("@filtro", "%" + filtro);
-                            break;
-                        default:
-                            datos.setearParametro("@filtro", "%" + filtro + "%");
-                            break;
-                    }
+                    datos.setearParametro("@filtro", criterio == "Comienza con" ? (filtro + "%")
+                                               : criterio == "Termina con" ? ("%" + filtro)
+                                                                             : ("%" + filtro + "%"));
                 }
                 else if (campo == "Marca")
                 {
                     consulta += "AND M.Descripcion LIKE @filtro ";
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            datos.setearParametro("@filtro", filtro + "%");
-                            break;
-                        case "Termina con":
-                            datos.setearParametro("@filtro", "%" + filtro);
-                            break;
-                        default:
-                            datos.setearParametro("@filtro", "%" + filtro + "%");
-                            break;
-                    }
+                    datos.setearParametro("@filtro", criterio == "Comienza con" ? (filtro + "%")
+                                               : criterio == "Termina con" ? ("%" + filtro)
+                                                                             : ("%" + filtro + "%"));
                 }
                 else if (campo == "Categoria" || campo == "Categoría")
                 {
                     consulta += "AND C.Descripcion LIKE @filtro ";
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            datos.setearParametro("@filtro", filtro + "%");
-                            break;
-                        case "Termina con":
-                            datos.setearParametro("@filtro", "%" + filtro);
-                            break;
-                        default:
-                            datos.setearParametro("@filtro", "%" + filtro + "%");
-                            break;
-                    }
+                    datos.setearParametro("@filtro", criterio == "Comienza con" ? (filtro + "%")
+                                               : criterio == "Termina con" ? ("%" + filtro)
+                                                                             : ("%" + filtro + "%"));
                 }
                 else if (campo == "Codigo" || campo == "Código")
                 {
                     consulta += "AND A.Codigo LIKE @filtro ";
-                    switch (criterio)
-                    {
-                        case "Comienza con":
-                            datos.setearParametro("@filtro", filtro + "%");
-                            break;
-                        case "Termina con":
-                            datos.setearParametro("@filtro", "%" + filtro);
-                            break;
-                        default:
-                            datos.setearParametro("@filtro", "%" + filtro + "%");
-                            break;
-                    }
+                    datos.setearParametro("@filtro", criterio == "Comienza con" ? (filtro + "%")
+                                               : criterio == "Termina con" ? ("%" + filtro)
+                                                                             : ("%" + filtro + "%"));
                 }
 
                 datos.setearConsulta(consulta);
@@ -320,6 +273,10 @@ WHERE 1=1 ";
                     if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Precio")))
                         aux.Precio = (decimal)datos.Lector["Precio"];
 
+                    // Imágenes para el item filtrado (opcional: podés omitir si no mostrás en esta vista)
+                    aux.Imagenes = ObtenerImagenesPorId(aux.Id);
+                    aux.UrlImagen = (aux.Imagenes != null && aux.Imagenes.Count > 0) ? aux.Imagenes[0] : null;
+
                     lista.Add(aux);
                 }
 
@@ -339,34 +296,9 @@ WHERE 1=1 ";
             }
         }
 
-        public string ObtenerPrimeraImagenValida(int idArticulo)
-        {
-            var datos = new AccesoDatos();
-            try
-            {
-                datos.setearConsulta("SELECT TOP 1 ImagenUrl FROM IMAGENES WHERE IdArticulo = @idArticulo");
-                datos.setearParametro("@idArticulo", idArticulo);
-                datos.ejecutarLectura();
-
-                if (datos.Lector.Read())
-                    return (string)datos.Lector["ImagenUrl"];
-
-                return null;
-            }
-            catch (SqlException ex)
-            {
-                throw new ApplicationException("Error de base al obtener la imagen del artículo.", ex);
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("Error inesperado al obtener la imagen del artículo.", ex);
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
-
+        // ─────────────────────────────────────────────────────────
+        // Imágenes: una única implementación, con Trim y filtro
+        // ─────────────────────────────────────────────────────────
         public List<string> ObtenerImagenesPorId(int idArticulo)
         {
             var imagenes = new List<string>();
@@ -379,7 +311,9 @@ WHERE 1=1 ";
 
                 while (datos.Lector.Read())
                 {
-                    imagenes.Add((string)datos.Lector["ImagenUrl"]);
+                    var u = (datos.Lector["ImagenUrl"] as string)?.Trim();
+                    if (!string.IsNullOrWhiteSpace(u))
+                        imagenes.Add(u);
                 }
 
                 return imagenes;
@@ -435,7 +369,7 @@ WHERE 1=1 ";
                 {
                     datos.setearConsulta("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@idArticulo, @url)");
                     datos.setearParametro("@idArticulo", idArticulo);
-                    datos.setearParametro("@url", url);
+                    datos.setearParametro("@url", url?.Trim());
                     datos.ejecutarAccion();
                 }
             }

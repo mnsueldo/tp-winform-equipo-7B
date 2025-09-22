@@ -1,93 +1,95 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using dominio;
+using Negocio;
 
 namespace TP2
 {
     public partial class frmDetalleArticulo : Form
     {
-        private readonly Articulo articulo;
-        private int idxImagen = 0;
+        private readonly Articulo _articulo;
+        private List<string> _imgs = new List<string>(); // C# 7.3
+        private int _idx = 0;
 
-        public frmDetalleArticulo(Articulo articulo)
+        public frmDetalleArticulo(Articulo art)
         {
-            if (articulo == null) throw new ArgumentNullException(nameof(articulo));
             InitializeComponent();
-            this.articulo = articulo;
-            this.Text = "Detalle del artículo";
-            this.StartPosition = FormStartPosition.CenterParent;
+            _articulo = art;
         }
 
         private void frmDetalleArticulo_Load(object sender, EventArgs e)
         {
-            // Datos
-            lblCodigoValor.Text = articulo.Codigo ?? "-";
-            lblNombreValor.Text = articulo.Nombre ?? "-";
-            lblDescripcionValor.Text = articulo.Descripcion ?? "-";
-            lblMarcaValor.Text = articulo.Marca != null ? articulo.Marca.Descripcion : "-";
-            lblCategoriaValor.Text = articulo.Categoria != null ? articulo.Categoria.Descripcion : "-";
-            lblPrecioValor.Text = articulo.Precio.ToString("C");
+            // Completar labels de VALOR (los del Designer terminan en "Valor")
+            lblCodigoValor.Text = _articulo.Codigo;
+            lblNombreValor.Text = _articulo.Nombre;
+            lblDescripcionValor.Text = _articulo.Descripcion;
+            lblMarcaValor.Text = _articulo.Marca != null ? _articulo.Marca.Descripcion : "-";
+            lblCategoriaValor.Text = _articulo.Categoria != null ? _articulo.Categoria.Descripcion : "-";
+            lblPrecioValor.Text = _articulo.Precio.ToString("C2");
 
-            // Imágenes
-            if (articulo.Imagenes != null && articulo.Imagenes.Count > 0)
+            // Imágenes: usar las del objeto o traer del negocio
+            _imgs = (_articulo.Imagenes ?? new List<string>()).Where(u => !string.IsNullOrWhiteSpace(u)).ToList();
+            if (_imgs.Count == 0)
             {
-                idxImagen = 0;
-                CargarImagenActual();
+                var neg = new ArticuloNegocio();
+                var desdeBd = neg.ObtenerImagenesPorId(_articulo.Id);
+                if (desdeBd != null) _imgs = desdeBd;
             }
-            else
-            {
-                lblPaginador.Text = "Sin imágenes";
-                pictureBox.Image = null;
-                btnAnterior.Enabled = btnSiguiente.Enabled = false;
-            }
+
+            _idx = 0;
+            MostrarImagenActual();
         }
 
-        private void CargarImagenActual()
+        private void MostrarImagenActual()
         {
-            if (articulo.Imagenes == null || articulo.Imagenes.Count == 0)
+            if (_imgs == null || _imgs.Count == 0)
             {
-                pictureBox.Image = null;
-                lblPaginador.Text = "Sin imágenes";
+                try
+                {
+                    pictureBox.LoadAsync("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+                }
+                catch { /* ignore */ }
+                lblPaginador.Text = "0 / 0";
                 btnAnterior.Enabled = btnSiguiente.Enabled = false;
                 return;
             }
 
-            if (idxImagen < 0) idxImagen = articulo.Imagenes.Count - 1;
-            if (idxImagen >= articulo.Imagenes.Count) idxImagen = 0;
-
-            var url = articulo.UrlImagen;
+            if (_idx < 0) _idx = 0;
+            if (_idx >= _imgs.Count) _idx = _imgs.Count - 1;
 
             try
             {
-                pictureBox.ImageLocation = null; // reset
-                pictureBox.Load(url);
+                pictureBox.Image = null;
+                pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                pictureBox.LoadAsync(_imgs[_idx].Trim());
             }
             catch
             {
-                pictureBox.Image = null;
+                pictureBox.LoadAsync("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
             }
 
-            lblPaginador.Text = $"{idxImagen + 1} / {articulo.Imagenes.Count}";
-            btnAnterior.Enabled = articulo.Imagenes.Count > 1;
-            btnSiguiente.Enabled = articulo.Imagenes.Count > 1;
+            lblPaginador.Text = string.Format("{0} / {1}", _idx + 1, _imgs.Count);
+            bool habilita = _imgs.Count > 1;
+            btnAnterior.Enabled = habilita;
+            btnSiguiente.Enabled = habilita;
         }
 
         private void btnAnterior_Click(object sender, EventArgs e)
         {
-            idxImagen--;
-            CargarImagenActual();
+            if (_imgs == null || _imgs.Count == 0) return;
+            _idx = (_idx - 1 + _imgs.Count) % _imgs.Count; // circular
+            MostrarImagenActual();
         }
 
         private void btnSiguiente_Click(object sender, EventArgs e)
         {
-            idxImagen++;
-            CargarImagenActual();
+            if (_imgs == null || _imgs.Count == 0) return;
+            _idx = (_idx + 1) % _imgs.Count; // circular
+            MostrarImagenActual();
         }
 
-        private void btnCerrar_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void btnCerrar_Click(object sender, EventArgs e) => Close();
     }
 }
