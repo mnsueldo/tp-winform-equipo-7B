@@ -77,9 +77,14 @@ namespace TP2
             }
             catch (Exception ex)
             {
-                
-                MessageBox.Show(ex.Message);
+                // Muestra el mensaje más útil (incluyendo inner exception si la hay)
+                string msg = ex is BusinessRuleException
+                    ? ex.Message
+                    : (ex.InnerException?.Message ?? ex.Message);
+
+                MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }

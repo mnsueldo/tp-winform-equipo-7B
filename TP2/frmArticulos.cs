@@ -1,6 +1,7 @@
 ﻿using Negocio;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using dominio;
 
@@ -13,6 +14,9 @@ namespace TP2
         private Articulo articuloActual = null;
         private bool eventosInicializados = false;
 
+        // Placeholder (podés cambiarlo por uno local en Resources)
+        private const string PLACEHOLDER_URL = "https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png";
+
         public frmArticulos()
         {
             InitializeComponent();
@@ -20,14 +24,25 @@ namespace TP2
 
         private void frmArticulos_Load(object sender, EventArgs e)
         {
+            ConfigurarPictureBox();
             cargar();
 
             if (dgvArticulos != null)
                 dgvArticulos.CellFormatting += dgvArticulos_CellFormatting;
 
             SuscribirEventosDetalleUnaVez();
-            // Si tenés búsqueda simple, dejá esta línea; si no existe el método, quítala.
-            // InitBusquedaSimple();
+            // InitBusquedaSimple(); // si lo usás
+        }
+
+        private void ConfigurarPictureBox()
+        {
+            if (pbxArticulo == null) return;
+
+            pbxArticulo.SizeMode = PictureBoxSizeMode.Zoom;   // <<< evita deformación
+            pbxArticulo.WaitOnLoad = false;                   // no bloquear UI
+            pbxArticulo.InitialImage = null;                  // opcional: imagen de "cargando"
+            pbxArticulo.ErrorImage = null;                    // manejamos nosotros el error
+            pbxArticulo.BorderStyle = BorderStyle.None;
         }
 
         private void SuscribirEventosDetalleUnaVez()
@@ -85,6 +100,16 @@ namespace TP2
                 colPrecio.DefaultCellStyle.Format = "N2";
             }
 
+            // Si tenés una columna de imagen en el DGV, asegurá Zoom
+            foreach (DataGridViewColumn c in dgvArticulos.Columns)
+            {
+                if (c is DataGridViewImageColumn imgCol)
+                {
+                    imgCol.ImageLayout = DataGridViewImageCellLayout.Zoom;
+                    dgvArticulos.RowTemplate.Height = Math.Max(dgvArticulos.RowTemplate.Height, 64);
+                }
+            }
+
             dgvArticulos.ShowCellToolTips = true;
         }
 
@@ -108,39 +133,61 @@ namespace TP2
 
         private void MostrarImagenSeleccionActual()
         {
-            if (dgvArticulos?.CurrentRow == null) { CargarImagenSeguro(null); return; }
+            if (dgvArticulos?.CurrentRow == null) { MostrarImagen(null); return; }
             var seleccionado = dgvArticulos.CurrentRow.DataBoundItem as Articulo;
-            if (seleccionado == null) { CargarImagenSeguro(null); return; }
+            if (seleccionado == null) { MostrarImagen(null); return; }
 
-            if (seleccionado.Imagenes != null && seleccionado.Imagenes.Count > 0)
-                CargarImagenSeguro(seleccionado.UrlImagen);
-            else
-                CargarImagenSeguro(null);
+            articuloActual = seleccionado;
+            indiceImagenActual = 0;
+
+            // 1) Si hay lista de imágenes, usa la actual
+            if (articuloActual.Imagenes != null && articuloActual.Imagenes.Count > 0)
+            {
+                MostrarImagen(articuloActual.Imagenes[indiceImagenActual]);
+                return;
+            }
+
+            // 2) Si no hay lista, pero hay UrlImagen única, úsala
+            if (!string.IsNullOrWhiteSpace(articuloActual.UrlImagen))
+            {
+                MostrarImagen(articuloActual.UrlImagen);
+                return;
+            }
+
+            // 3) Placeholder
+            MostrarImagen(null);
         }
 
-        private void CargarImagenSeguro(string url)
+        private void MostrarImagen(string url)
         {
+            if (pbxArticulo == null) return;
+
+            var destino = string.IsNullOrWhiteSpace(url) ? PLACEHOLDER_URL : url;
+
             try
             {
-                if (!string.IsNullOrWhiteSpace(url)) pbxArticulo.Load(url);
-                else pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+                // LoadAsync evita bloquear el hilo UI.
+                pbxArticulo.Image = null;             // libera imagen previa
+                pbxArticulo.ImageLocation = null;
+                pbxArticulo.LoadAsync(destino);
             }
             catch
             {
-                pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+                // fallback por si falla el Async/URL
+                try { pbxArticulo.Load(PLACEHOLDER_URL); } catch { /* swallow */ }
             }
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            frmAgregarArticulo agregar = new frmAgregarArticulo();
+            var agregar = new frmAgregarArticulo();
             agregar.ShowDialog();
             cargar();
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            if (dgvArticulos.CurrentRow != null)  // ← sin punto y coma
+            if (dgvArticulos.CurrentRow != null)
             {
                 var seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                 var modificar = new frmAgregarArticulo(seleccionado);
@@ -212,25 +259,36 @@ namespace TP2
             {
                 articuloActual = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                 indiceImagenActual = 0;
-                MostrarImagenActual();
+                // Reutilizamos la lógica centralizada
+                MostrarImagenSeleccionActual();
             }
         }
 
+        // Si más adelante sumás botones "Imagen anterior / siguiente":
         private void MostrarImagenActual()
         {
-            if (articuloActual == null || articuloActual.Imagenes == null || articuloActual.Imagenes.Count == 0)
+            if (articuloActual == null)
             {
-                pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+                MostrarImagen(null);
                 return;
             }
 
-            try
+            if (articuloActual.Imagenes != null && articuloActual.Imagenes.Count > 0)
             {
-                pbxArticulo.Load(articuloActual.Imagenes[indiceImagenActual]);
+                // Clamp de índice por las dudas
+                if (indiceImagenActual < 0) indiceImagenActual = 0;
+                if (indiceImagenActual >= articuloActual.Imagenes.Count)
+                    indiceImagenActual = articuloActual.Imagenes.Count - 1;
+
+                MostrarImagen(articuloActual.Imagenes[indiceImagenActual]);
             }
-            catch
+            else if (!string.IsNullOrWhiteSpace(articuloActual.UrlImagen))
             {
-                pbxArticulo.Load("https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png");
+                MostrarImagen(articuloActual.UrlImagen);
+            }
+            else
+            {
+                MostrarImagen(null);
             }
         }
     }

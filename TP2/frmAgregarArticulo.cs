@@ -14,6 +14,9 @@ namespace TP2
         private readonly List<string> _imagenes = new List<string>();  // urls/rutas a persistir
         private ContextMenuStrip _menuImagenes;
 
+        // NEW: flag para silenciar eventos de UI durante inicialización/actualizaciones programáticas
+        private bool _inicializandoUI = false;
+
         public frmAgregarArticulo()
         {
             InitializeComponent();
@@ -76,6 +79,7 @@ namespace TP2
         // =========================================================
         private void frmAgregarArticulo_Load(object sender, EventArgs e)
         {
+            _inicializandoUI = true;
             try
             {
                 // 1) Cargar combos SIEMPRE primero
@@ -102,22 +106,22 @@ namespace TP2
 
                     CargarListaImagenesUI();
 
+                    // Mostrar preview (si hay) pero dejar el textbox en blanco y sin seleccionar item
                     if (_imagenes.Count > 0)
-                    {
-                        txtUrlImagen.Text = _imagenes[0];
                         CargarImagenSeguro(_imagenes[0]);
-                        lstImagenes.SelectedIndex = 0;
-                    }
                     else
-                    {
                         CargarImagenSeguro(null);
-                    }
+
+                    txtUrlImagen.Clear();               // <<< lo pediste blanco
+                    lstImagenes.ClearSelected();        // no seleccionar nada para no disparar cambios
                 }
                 else
                 {
                     // Alta
                     CargarImagenSeguro(null);
                     CargarListaImagenesUI();
+                    txtUrlImagen.Clear();               // <<< blanco en alta también
+                    lstImagenes.ClearSelected();
                 }
             }
             catch (ApplicationException aex)
@@ -128,6 +132,10 @@ namespace TP2
             {
                 MessageBox.Show("Ocurrió un error al cargar el formulario.",
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _inicializandoUI = false;
             }
         }
 
@@ -167,6 +175,8 @@ namespace TP2
         // =========================================================
         private void lstImagenes_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (_inicializandoUI) return; // <<< evita llenar el textbox durante la carga
+
             if (lstImagenes.SelectedItem is string u)
             {
                 txtUrlImagen.Text = u;
@@ -230,11 +240,14 @@ namespace TP2
             bool existe = _imagenes.Exists(u => string.Equals(u?.Trim(), url, StringComparison.OrdinalIgnoreCase));
             if (!existe) _imagenes.Add(url);
 
+            // Refrescar lista sin seleccionar nada y dejar el textbox en blanco
+            _inicializandoUI = true;
             CargarListaImagenesUI();
+            lstImagenes.ClearSelected();
+            _inicializandoUI = false;
 
-            int idx = lstImagenes.Items.IndexOf(url);
-            if (idx >= 0) lstImagenes.SelectedIndex = idx;
-            CargarImagenSeguro(url);
+            txtUrlImagen.Clear();                 // <<< lo dejamos vacío a pedido
+            CargarImagenSeguro(url);              // mostramos preview igualmente
         }
 
         private void btnQuitarImagen_Click_1(object sender, EventArgs e)
@@ -252,13 +265,15 @@ namespace TP2
             foreach (string u in aQuitar)
                 _imagenes.Remove(u);
 
+            _inicializandoUI = true;
             CargarListaImagenesUI();
+            lstImagenes.ClearSelected();
+            _inicializandoUI = false;
 
             if (_imagenes.Count > 0)
             {
-                txtUrlImagen.Text = _imagenes[0];
-                CargarImagenSeguro(_imagenes[0]);
-                lstImagenes.SelectedIndex = 0;
+                txtUrlImagen.Clear();                 // <<< pediste en blanco
+                CargarImagenSeguro(_imagenes[0]);     // mostramos la primera como preview
             }
             else
             {

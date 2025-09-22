@@ -1,5 +1,6 @@
 using Negocio;
 using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using dominio;
 
@@ -12,50 +13,83 @@ namespace TP2
         public frmAgregarCategoria()
         {
             InitializeComponent();
+            Text = "Agregar Categoría";
         }
 
-        public frmAgregarCategoria(Categoria categoria)
+        public frmAgregarCategoria(Categoria categoria) : this()
         {
             this.categoria = categoria;
-            InitializeComponent();
             Text = "Modificar Categoría";
         }
 
         private void frmAgregarCategoria_Load(object sender, EventArgs e)
         {
             if (categoria != null)
-                txtDescripcionCategoria.Text = categoria.Descripcion;   // <- acá
+                txtDescripcionCategoria.Text = categoria.Descripcion;
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            CategoriaNegocio negocio = new CategoriaNegocio();
+            var negocio = new CategoriaNegocio();
+
             try
             {
+                // 1) Normalizar entrada: trim + colapsar espacios internos
+                string input = (txtDescripcionCategoria.Text ?? string.Empty).Trim();
+                input = Regex.Replace(input, @"\s{2,}", " "); // "Nombre   con   muchos" -> "Nombre con muchos"
+
+                // 2) Validaciones de negocio (UI)
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    MessageBox.Show("La descripción no puede estar vacía.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtDescripcionCategoria.Focus();
+                    return;
+                }
+
+                // (opcional) validar longitud mínima
+                if (input.Length < 2)
+                {
+                    MessageBox.Show("La descripción debe tener al menos 2 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtDescripcionCategoria.Focus();
+                    return;
+                }
+
+                // 3) Preparar entidad
                 if (categoria == null)
                     categoria = new Categoria();
 
-                categoria.Descripcion = txtDescripcionCategoria.Text;   // <- y acá
+                // 4) Chequear duplicados (case-insensitive) excluyendo el propio Id si es edición
+                int idExcluir = categoria.Id; // si es alta, será 0
+                bool existe = negocio.ExisteDescripcion(input, idExcluir);
+                if (existe)
+                {
+                    MessageBox.Show("Ya existe una categoría con esa descripción.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtDescripcionCategoria.SelectAll();
+                    txtDescripcionCategoria.Focus();
+                    return;
+                }
+
+                // 5) Persistir
+                categoria.Descripcion = input;
 
                 if (categoria.Id != 0)
                 {
                     negocio.modificar(categoria);
-                    MessageBox.Show("Categoría modificada correctamente");
+                    MessageBox.Show("Categoría modificada correctamente", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     negocio.agregar(categoria);
-                    MessageBox.Show("Categoría agregada correctamente");
+                    MessageBox.Show("Categoría agregada correctamente", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
