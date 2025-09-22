@@ -77,7 +77,7 @@ namespace TP2
             }
             catch (Exception ex)
             {
-                // Muestra el mensaje más útil (incluyendo inner exception si la hay)
+                
                 string msg = ex is BusinessRuleException
                     ? ex.Message
                     : (ex.InnerException?.Message ?? ex.Message);

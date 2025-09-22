@@ -14,7 +14,7 @@ namespace TP2
         private readonly List<string> _imagenes = new List<string>();  // urls/rutas a persistir
         private ContextMenuStrip _menuImagenes;
 
-        // NEW: flag para silenciar eventos de UI durante inicialización/actualizaciones programáticas
+        
         private bool _inicializandoUI = false;
 
         public frmAgregarArticulo()
@@ -30,12 +30,10 @@ namespace TP2
             Text = "Modificar Artículo";
         }
 
-        // =========================================================
-        // Eventos / wiring
-        // =========================================================
+      
         private void WireEvents()
         {
-            // --- Evitar doble registro (Designer + código) ---
+            //Evitar doble registro
             btnAgregarImagen.Click -= btnAgregarImagen_Click_1;
             btnAgregarImagen.Click += btnAgregarImagen_Click_1;
 
@@ -74,30 +72,28 @@ namespace TP2
             lstImagenes.ContextMenuStrip = _menuImagenes;
         }
 
-        // =========================================================
-        // Carga del formulario
-        // =========================================================
+        
         private void frmAgregarArticulo_Load(object sender, EventArgs e)
         {
             _inicializandoUI = true;
             try
             {
-                // 1) Cargar combos SIEMPRE primero
+               
                 CargarCombos();
 
                 if (articulo != null)
                 {
-                    // 2) Mapear datos
+                    //Mapear datos
                     txtCodigo.Text = articulo.Codigo;
                     txtNombre.Text = articulo.Nombre;
                     txtDescripcion.Text = articulo.Descripcion;
                     txtPrecio.Text = articulo.Precio.ToString("N2");
 
-                    // 3) Seleccionar ítems en combos (ya tienen DataSource)
+                    //Seleccionar ítems en combos
                     if (articulo.Marca != null) SeleccionarEnCombo(cboMarca, articulo.Marca.Id);
                     if (articulo.Categoria != null) SeleccionarEnCombo(cboCategoria, articulo.Categoria.Id);
 
-                    // 4) Traer imágenes actuales
+                    //Traer imágenes actuales
                     var neg = new ArticuloNegocio();
                     var actuales = neg.ObtenerImagenesPorId(articulo.Id);
                     _imagenes.Clear();
@@ -106,21 +102,21 @@ namespace TP2
 
                     CargarListaImagenesUI();
 
-                    // Mostrar preview (si hay) pero dejar el textbox en blanco y sin seleccionar item
+                    //Mostrar preview
                     if (_imagenes.Count > 0)
                         CargarImagenSeguro(_imagenes[0]);
                     else
                         CargarImagenSeguro(null);
 
-                    txtUrlImagen.Clear();               // <<< lo pediste blanco
-                    lstImagenes.ClearSelected();        // no seleccionar nada para no disparar cambios
+                    txtUrlImagen.Clear();               
+                    lstImagenes.ClearSelected();        
                 }
                 else
                 {
                     // Alta
                     CargarImagenSeguro(null);
                     CargarListaImagenesUI();
-                    txtUrlImagen.Clear();               // <<< blanco en alta también
+                    txtUrlImagen.Clear();              
                     lstImagenes.ClearSelected();
                 }
             }
@@ -144,7 +140,7 @@ namespace TP2
         {
             // Marcas
             var marcaNeg = new MarcaNegocio();
-            var marcas = marcaNeg.listar(); // List<Marca>
+            var marcas = marcaNeg.listar(); 
             cboMarca.DataSource = null;
             cboMarca.DisplayMember = "Descripcion";
             cboMarca.ValueMember = "Id";
@@ -153,7 +149,7 @@ namespace TP2
 
             // Categorías
             var catNeg = new CategoriaNegocio();
-            var categorias = catNeg.listar(); // List<Categoria>
+            var categorias = catNeg.listar(); 
             cboCategoria.DataSource = null;
             cboCategoria.DisplayMember = "Descripcion";
             cboCategoria.ValueMember = "Id";
@@ -170,12 +166,10 @@ namespace TP2
             }
         }
 
-        // =========================================================
-        // Imágenes
-        // =========================================================
+        
         private void lstImagenes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_inicializandoUI) return; // <<< evita llenar el textbox durante la carga
+            if (_inicializandoUI) return; //evita llenar el textbox durante la carga
 
             if (lstImagenes.SelectedItem is string u)
             {
@@ -246,8 +240,8 @@ namespace TP2
             lstImagenes.ClearSelected();
             _inicializandoUI = false;
 
-            txtUrlImagen.Clear();                 // <<< lo dejamos vacío a pedido
-            CargarImagenSeguro(url);              // mostramos preview igualmente
+            txtUrlImagen.Clear();                 
+            CargarImagenSeguro(url);              
         }
 
         private void btnQuitarImagen_Click_1(object sender, EventArgs e)
@@ -272,8 +266,8 @@ namespace TP2
 
             if (_imagenes.Count > 0)
             {
-                txtUrlImagen.Clear();                 // <<< pediste en blanco
-                CargarImagenSeguro(_imagenes[0]);     // mostramos la primera como preview
+                txtUrlImagen.Clear();                 
+                CargarImagenSeguro(_imagenes[0]);     
             }
             else
             {
@@ -331,9 +325,7 @@ namespace TP2
             }
         }
 
-        // =========================================================
-        // Guardar / Validar
-        // =========================================================
+        
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             try
@@ -422,9 +414,7 @@ namespace TP2
 
         private void btnCancelar_Click(object sender, EventArgs e) => Close();
 
-        // =========================================================
-        // Helpers menú
-        // =========================================================
+        
         private void CopiarSeleccion()
         {
             if (lstImagenes.SelectedItems.Count == 0) return;

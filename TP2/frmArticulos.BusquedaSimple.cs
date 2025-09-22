@@ -21,7 +21,7 @@ namespace TP2
         private Button srchBtnLimpiar;
         private Label srchLblCount;
 
-        private bool srchLayoutAjustado = false; // para no ajustar dos veces
+        private bool srchLayoutAjustado = false;
 
         private List<Articulo> _all = new List<Articulo>();
         private List<Articulo> _view = new List<Articulo>();
@@ -67,9 +67,9 @@ namespace TP2
 
             var lblTexto = new Label { Text = "Texto:", AutoSize = true, Left = 10, Top = 12 };
             srchTxt = new TextBox { Left = 60, Top = 9, Width = 200 };
-            // Enter -> buscar
+            
             srchTxt.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) { e.SuppressKeyPress = true; SrchFiltrar(); } };
-            // En vivo (>=2 chars o vacío)
+            
             srchTxt.TextChanged += (s, e) =>
             {
                 var t = (srchTxt.Text ?? "").Trim();
@@ -103,26 +103,26 @@ namespace TP2
                 lblMin, srchMin, lblMax, srchMax, srchChkConImagen, srchBtnBuscar, srchBtnLimpiar, srchLblCount
             });
 
-            // >>> Ajustar layout para que la grilla NO quede debajo del panel
+           
             AjustarLayoutDebajoDelPanel();
         }
 
-        // Mueve la grilla (y opcionalmente otros controles) por debajo del panel superior
+        
         private void AjustarLayoutDebajoDelPanel()
         {
             if (srchLayoutAjustado || srchPanel == null || dgvArticulos == null) return;
 
-            int nuevoTop = srchPanel.Bottom + 6;     // margen de 6px
+            int nuevoTop = srchPanel.Bottom + 6;     
             if (dgvArticulos.Top < nuevoTop)
             {
                 int delta = nuevoTop - dgvArticulos.Top;
                 dgvArticulos.Top = nuevoTop;
-                // reducir altura para que siga entrando en el formulario
+               
                 if (dgvArticulos.Height > delta + 40)
                     dgvArticulos.Height -= delta;
             }
 
-            // Si tenés un PictureBox en la misma línea, también lo bajamos si hiciera falta
+            
             if (pbxArticulo != null && pbxArticulo.Top < nuevoTop)
             {
                 int delta = nuevoTop - pbxArticulo.Top;
@@ -205,7 +205,7 @@ namespace TP2
             bs.DataSource = lista;
             dgvArticulos.DataSource = bs;
 
-            // asegura formato/anchos y que no se tape la cabecera
+            
             FormatearGrilla();
             AjustarLayoutDebajoDelPanel();
 

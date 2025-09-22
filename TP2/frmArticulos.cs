@@ -14,7 +14,7 @@ namespace TP2
         private Articulo articuloActual = null;
         private bool eventosInicializados = false;
 
-        // Placeholder (podés cambiarlo por uno local en Resources)
+        
         private const string PLACEHOLDER_URL = "https://efectocolibri.com/wp-content/uploads/2021/01/placeholder.png";
 
         public frmArticulos()
@@ -31,17 +31,17 @@ namespace TP2
                 dgvArticulos.CellFormatting += dgvArticulos_CellFormatting;
 
             SuscribirEventosDetalleUnaVez();
-            // InitBusquedaSimple(); // si lo usás
+            
         }
 
         private void ConfigurarPictureBox()
         {
             if (pbxArticulo == null) return;
 
-            pbxArticulo.SizeMode = PictureBoxSizeMode.Zoom;   // <<< evita deformación
-            pbxArticulo.WaitOnLoad = false;                   // no bloquear UI
-            pbxArticulo.InitialImage = null;                  // opcional: imagen de "cargando"
-            pbxArticulo.ErrorImage = null;                    // manejamos nosotros el error
+            pbxArticulo.SizeMode = PictureBoxSizeMode.Zoom;   
+            pbxArticulo.WaitOnLoad = false;                   
+            pbxArticulo.InitialImage = null;                 
+            pbxArticulo.ErrorImage = null;                   
             pbxArticulo.BorderStyle = BorderStyle.None;
         }
 
@@ -100,7 +100,7 @@ namespace TP2
                 colPrecio.DefaultCellStyle.Format = "N2";
             }
 
-            // Si tenés una columna de imagen en el DGV, asegurá Zoom
+            
             foreach (DataGridViewColumn c in dgvArticulos.Columns)
             {
                 if (c is DataGridViewImageColumn imgCol)
@@ -140,21 +140,21 @@ namespace TP2
             articuloActual = seleccionado;
             indiceImagenActual = 0;
 
-            // 1) Si hay lista de imágenes, usa la actual
+            //Si hay lista de imágenes, usa la actual
             if (articuloActual.Imagenes != null && articuloActual.Imagenes.Count > 0)
             {
                 MostrarImagen(articuloActual.Imagenes[indiceImagenActual]);
                 return;
             }
 
-            // 2) Si no hay lista, pero hay UrlImagen única, úsala
+            //Si no hay lista, pero hay UrlImagen única
             if (!string.IsNullOrWhiteSpace(articuloActual.UrlImagen))
             {
                 MostrarImagen(articuloActual.UrlImagen);
                 return;
             }
 
-            // 3) Placeholder
+            //Placeholder
             MostrarImagen(null);
         }
 
@@ -166,8 +166,8 @@ namespace TP2
 
             try
             {
-                // LoadAsync evita bloquear el hilo UI.
-                pbxArticulo.Image = null;             // libera imagen previa
+                
+                pbxArticulo.Image = null;             
                 pbxArticulo.ImageLocation = null;
                 pbxArticulo.LoadAsync(destino);
             }
@@ -259,12 +259,12 @@ namespace TP2
             {
                 articuloActual = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
                 indiceImagenActual = 0;
-                // Reutilizamos la lógica centralizada
+               
                 MostrarImagenSeleccionActual();
             }
         }
 
-        // Si más adelante sumás botones "Imagen anterior / siguiente":
+        
         private void MostrarImagenActual()
         {
             if (articuloActual == null)
@@ -275,7 +275,7 @@ namespace TP2
 
             if (articuloActual.Imagenes != null && articuloActual.Imagenes.Count > 0)
             {
-                // Clamp de índice por las dudas
+                
                 if (indiceImagenActual < 0) indiceImagenActual = 0;
                 if (indiceImagenActual >= articuloActual.Imagenes.Count)
                     indiceImagenActual = articuloActual.Imagenes.Count - 1;

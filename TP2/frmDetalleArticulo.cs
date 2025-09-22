@@ -10,7 +10,7 @@ namespace TP2
     public partial class frmDetalleArticulo : Form
     {
         private readonly Articulo _articulo;
-        private List<string> _imgs = new List<string>(); // C# 7.3
+        private List<string> _imgs = new List<string>(); 
         private int _idx = 0;
 
         public frmDetalleArticulo(Articulo art)
@@ -21,7 +21,7 @@ namespace TP2
 
         private void frmDetalleArticulo_Load(object sender, EventArgs e)
         {
-            // Completar labels de VALOR (los del Designer terminan en "Valor")
+            
             lblCodigoValor.Text = _articulo.Codigo;
             lblNombreValor.Text = _articulo.Nombre;
             lblDescripcionValor.Text = _articulo.Descripcion;
@@ -29,7 +29,7 @@ namespace TP2
             lblCategoriaValor.Text = _articulo.Categoria != null ? _articulo.Categoria.Descripcion : "-";
             lblPrecioValor.Text = _articulo.Precio.ToString("C2");
 
-            // Imágenes: usar las del objeto o traer del negocio
+            
             _imgs = (_articulo.Imagenes ?? new List<string>()).Where(u => !string.IsNullOrWhiteSpace(u)).ToList();
             if (_imgs.Count == 0)
             {
@@ -79,14 +79,14 @@ namespace TP2
         private void btnAnterior_Click(object sender, EventArgs e)
         {
             if (_imgs == null || _imgs.Count == 0) return;
-            _idx = (_idx - 1 + _imgs.Count) % _imgs.Count; // circular
+            _idx = (_idx - 1 + _imgs.Count) % _imgs.Count; 
             MostrarImagenActual();
         }
 
         private void btnSiguiente_Click(object sender, EventArgs e)
         {
             if (_imgs == null || _imgs.Count == 0) return;
-            _idx = (_idx + 1) % _imgs.Count; // circular
+            _idx = (_idx + 1) % _imgs.Count; 
             MostrarImagenActual();
         }
 

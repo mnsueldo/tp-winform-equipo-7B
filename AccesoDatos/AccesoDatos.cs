@@ -23,7 +23,7 @@ namespace Negocio
         {
             comando.CommandType = CommandType.Text;
             comando.CommandText = consulta;
-            comando.Parameters.Clear(); // evita acumular parámetros entre llamadas
+            comando.Parameters.Clear();
         }
 
         public void ejecutarLectura()
@@ -32,7 +32,7 @@ namespace Negocio
             try
             {
                 conexion.Open();
-                lector = comando.ExecuteReader(); // la conexión queda abierta hasta cerrar Lector con cerrarConexion()
+                lector = comando.ExecuteReader();
             }
             catch (SqlException ex)
             {

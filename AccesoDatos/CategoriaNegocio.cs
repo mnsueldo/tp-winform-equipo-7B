@@ -8,23 +8,18 @@ namespace Negocio
 {
     public class CategoriaNegocio
     {
-        // -------------------- Helpers de normalización/validación --------------------
-
-        /// <summary>
-        /// Recorta extremos y colapsa múltiples espacios internos a uno solo.
-        /// </summary>
+     
         private static string NormalizarDescripcion(string s)
         {
             var input = (s ?? string.Empty).Trim();
-            // "Nombre   con   muchos" -> "Nombre con muchos"
+         
             input = Regex.Replace(input, @"\s{2,}", " ");
             return input;
         }
 
-        /// <summary>
-        /// Devuelve true si YA existe otra categoría con esa descripción (case-insensitive).
-        /// Excluye el Id indicado (útil en edición).
-        /// </summary>
+        
+        
+       
         public bool ExisteDescripcion(string descripcionNormalizada, int idExcluir = 0)
         {
             var datos = new AccesoDatos();
@@ -52,7 +47,7 @@ namespace Negocio
             }
         }
 
-        // -------------------- CRUD --------------------
+        
 
         public List<Categoria> listar()
         {
@@ -170,8 +165,7 @@ namespace Negocio
             }
         }
 
-        // --- Chequeo previo: ¿hay artículos que usan esta categoría? ---
-        // Versión que NO depende de columna 'Eliminado'.
+       
         private bool TieneArticulosAsociados(int idCategoria)
         {
             var datos = new AccesoDatos();
@@ -190,7 +184,7 @@ namespace Negocio
             }
         }
 
-        // --- Chequeo de existencia (para dar buen mensaje si ya no existe) ---
+        
         private bool ExisteCategoria(int id)
         {
             var datos = new AccesoDatos();
@@ -212,14 +206,14 @@ namespace Negocio
             var datos = new AccesoDatos();
             try
             {
-                // 1) Reglas de negocio
+                
                 if (!ExisteCategoria(id))
                     throw new BusinessRuleException("La categoría no existe o ya fue eliminada.");
 
                 if (TieneArticulosAsociados(id))
                     throw new BusinessRuleException("No se puede eliminar la Categoría: tiene artículos asociados.");
 
-                // 2) Borrado físico
+               
                 datos.setearConsulta("DELETE FROM CATEGORIAS WHERE Id = @Id");
                 datos.setearParametro("@Id", id);
                 datos.ejecutarAccion();
@@ -228,7 +222,7 @@ namespace Negocio
             {
                 throw;
             }
-            catch (SqlException ex) when (ex.Number == 547) // FK en BD
+            catch (SqlException ex) when (ex.Number == 547) 
             {
                 throw new BusinessRuleException("No se puede eliminar la Categoría: tiene artículos asociados.");
             }

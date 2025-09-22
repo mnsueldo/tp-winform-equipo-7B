@@ -34,7 +34,7 @@ namespace TP2
 
             try
             {
-                // Normalización básica
+                
                 string input = (txtDescripcionMarca.Text ?? string.Empty).Trim();
                 input = Regex.Replace(input, @"\s{2,}", " ");
 
@@ -59,7 +59,7 @@ namespace TP2
                     marca = new Marca();
 
                 // Evitar duplicados (case-insensitive), excluyendo el propio Id si es edición
-                int idExcluir = marca.Id; // 0 si es alta
+                int idExcluir = marca.Id;
                 if (negocio.ExisteDescripcion(input, idExcluir))
                 {
                     MessageBox.Show("Ya existe una marca con esa descripción.",

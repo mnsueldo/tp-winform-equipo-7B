@@ -34,11 +34,11 @@ namespace TP2
 
             try
             {
-                // 1) Normalizar entrada: trim + colapsar espacios internos
+                //Normalizar entrada: trim + colapsar espacios internos
                 string input = (txtDescripcionCategoria.Text ?? string.Empty).Trim();
-                input = Regex.Replace(input, @"\s{2,}", " "); // "Nombre   con   muchos" -> "Nombre con muchos"
+                input = Regex.Replace(input, @"\s{2,}", " "); 
 
-                // 2) Validaciones de negocio (UI)
+                //Validaciones de negocio (UI)
                 if (string.IsNullOrWhiteSpace(input))
                 {
                     MessageBox.Show("La descripción no puede estar vacía.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -46,7 +46,7 @@ namespace TP2
                     return;
                 }
 
-                // (opcional) validar longitud mínima
+                //validar longitud mínima
                 if (input.Length < 2)
                 {
                     MessageBox.Show("La descripción debe tener al menos 2 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -54,12 +54,12 @@ namespace TP2
                     return;
                 }
 
-                // 3) Preparar entidad
+                //Preparar entidad
                 if (categoria == null)
                     categoria = new Categoria();
 
-                // 4) Chequear duplicados (case-insensitive) excluyendo el propio Id si es edición
-                int idExcluir = categoria.Id; // si es alta, será 0
+                //Chequear duplicados (case-insensitive) excluyendo el propio Id si es edición
+                int idExcluir = categoria.Id;
                 bool existe = negocio.ExisteDescripcion(input, idExcluir);
                 if (existe)
                 {
@@ -69,7 +69,7 @@ namespace TP2
                     return;
                 }
 
-                // 5) Persistir
+                
                 categoria.Descripcion = input;
 
                 if (categoria.Id != 0)

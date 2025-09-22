@@ -273,7 +273,7 @@ WHERE 1=1 ";
                     if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Precio")))
                         aux.Precio = (decimal)datos.Lector["Precio"];
 
-                    // Imágenes para el item filtrado (opcional: podés omitir si no mostrás en esta vista)
+                    // Imágenes para el item filtrado
                     aux.Imagenes = ObtenerImagenesPorId(aux.Id);
                     aux.UrlImagen = (aux.Imagenes != null && aux.Imagenes.Count > 0) ? aux.Imagenes[0] : null;
 
@@ -296,9 +296,7 @@ WHERE 1=1 ";
             }
         }
 
-        // ─────────────────────────────────────────────────────────
-        // Imágenes: una única implementación, con Trim y filtro
-        // ─────────────────────────────────────────────────────────
+        
         public List<string> ObtenerImagenesPorId(int idArticulo)
         {
             var imagenes = new List<string>();
